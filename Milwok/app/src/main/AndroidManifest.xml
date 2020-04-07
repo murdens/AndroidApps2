@@ -11,7 +11,8 @@
         <activity
             android:name=".ColorsActivity"
             android:label="@string/category_colors"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
