@@ -1,6 +1,7 @@
 package com.example.android.miwok;
 
 public class Word {
+
     private String cDefaultTranslation;
 
     private String cMiwokTranslation;
@@ -46,4 +47,5 @@ public class Word {
     public int getAudiosourceId() {
         return cAudioSourceID;
     }
+
 }

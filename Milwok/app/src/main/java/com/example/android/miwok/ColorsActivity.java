@@ -53,8 +53,10 @@ public class ColorsActivity extends AppCompatActivity {
         }
     };
 
+    //action method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // goes to super class of ColorsActivity -- AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
 
