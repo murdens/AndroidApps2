@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the increment button is clicked.
      */
     public void increment(View view) {
-        if (quantity == 20){
+        if (quantity == 20) {
             return;
         }
         quantity = quantity + 1;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the decrement button is clicked.
      */
     public void decrement(View view) {
-        if (quantity == 0){
+        if (quantity == 0) {
             return;
         }
         quantity = quantity - 1;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method is called when the order button is clicked.
      */
-   public void submitOrder(View view) {
+    public void submitOrder(View view) {
 
         EditText enteredName = findViewById(R.id.name);
         String nameField = enteredName.getText().toString();
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Just Java order for "+nameField);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Just Java order for " + nameField);
         intent.putExtra(Intent.EXTRA_TEXT, priceMessage);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
@@ -92,21 +92,22 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + number);
     }
 
-         /**
+    /**
      * Calculates the price of the order based on the current quantity.
+     *
+     * @param addCream for checkbox
+     * @param addChoc  for checkbox
      * @return the total price
-      * @param addCream for checkbox
-      * @param addChoc for checkbox
-     * */
+     */
     private int calculatePrice(boolean addCream, boolean addChoc) {
         // Set price for 1 cup of coffee
         int basePrice = 5;
         // if user wants cream or choc, add to price
-        if(addCream){
+        if (addCream) {
             basePrice += 2;
         }
 
-        if(addChoc){
+        if (addChoc) {
             basePrice += 1;
         }
         // calculate total price
@@ -115,18 +116,19 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Creates an order summary to display on screen
-     * @return text summary
-     * @param price is the total order $
+     *
+     * @param price    is the total order $
      * @param hasCream boolean to confirm if checkbox for cream on
-     * @param hasChoc boolean to confirm if checkbox for choc on
-     * */
+     * @param hasChoc  boolean to confirm if checkbox for choc on
+     * @return text summary
+     */
     private String createOrderSummary(String nameField, int price, boolean hasCream, boolean hasChoc) {
-        String priceMessage = "Name: "+ nameField;
-        priceMessage += "\nQuantity: "+ quantity;
-        priceMessage += "\nWhipped Cream? "+ hasCream;
-        priceMessage += "\nChocolate? "+ hasChoc;
+        String priceMessage = "Name: " + nameField;
+        priceMessage += "\nQuantity: " + quantity;
+        priceMessage += "\nWhipped Cream? " + hasCream;
+        priceMessage += "\nChocolate? " + hasChoc;
         priceMessage += "\nTotal: $" + price;
-        priceMessage +=  "\nThank you!";
+        priceMessage += "\nThank you!";
         return priceMessage;
     }
 
