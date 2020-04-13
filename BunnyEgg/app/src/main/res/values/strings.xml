@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BunnyEgg</string>
+    <string name="clue_one">You\'ll find your first where you sleep at night.</string>
+    <string name="clue_two">Where your snacks hide away something new has appeared.</string>
+    <string name="clue_three">Where wiggly worms live you might find some gold.</string>
+    <string name="clue_four">These teddies are in chocolate heaven with the treats I left.</string>
+    <string name="clue_five">I know you\'re smart(ies), I\'ve seen your books.</string>
+</resources>
