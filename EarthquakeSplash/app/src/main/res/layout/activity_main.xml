@@ -18,7 +18,7 @@
         <View
             android:id="@+id/flash1"
             android:layout_width="200dp"
-            android:layout_height="450dp"
+            android:layout_height="400dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/thunder2" />
 
@@ -33,10 +33,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Tremors"
+            android:text="Quaked"
+            android:textAllCaps="true"
             android:textColorLink="?android:attr/windowBackground"
-            android:textSize="90dp"
-            app:fontFamily="@font/butcherman" />
+            android:textSize="120dp"
+            app:fontFamily="@font/marvel_bold" />
 
     </RelativeLayout>
 

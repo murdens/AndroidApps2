@@ -1,4 +1,4 @@
-package com.example.android.quakereport;
+package com.example.android.quaked;
 
 import android.app.Activity;
 import android.support.v4.content.ContextCompat;
