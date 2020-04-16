@@ -36,8 +36,8 @@
             android:text="Quaked"
             android:textAllCaps="true"
             android:textColorLink="?android:attr/windowBackground"
-            android:textSize="120sp"
-            app:fontFamily="@font/marvel_bold" />
+            android:textSize="100sp"
+            android:fontFamily="sans-serif-black" />
 
     </RelativeLayout>
 
@@ -56,9 +56,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="50dp"
-                android:text="Udacity Android Development"
-                android:textSize="20sp"
-                app:fontFamily="cursive" />
+                android:text="Android Development"
+                android:textSize="30dp"
+                android:fontFamily="cursive" />
 
         </RelativeLayout>
 

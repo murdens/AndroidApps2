@@ -31,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+
 /**
  * Utility class with methods to help perform the HTTP request and
  * parse the response.
@@ -143,7 +144,6 @@ public final class Utils {
         if (TextUtils.isEmpty(earthquakeJSON)) {
             return null;
         }
-
         try {
             JSONObject baseJsonResponse = new JSONObject(earthquakeJSON);
             JSONArray featureArray = baseJsonResponse.getJSONArray("features");
