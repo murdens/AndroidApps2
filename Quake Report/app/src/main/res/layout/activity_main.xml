@@ -36,8 +36,9 @@
             android:text="Quaked"
             android:textAllCaps="true"
             android:textColorLink="?android:attr/windowBackground"
-            android:textSize="100sp"
-            android:fontFamily="sans-serif-black" />
+            android:textSize="120sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/marvel_bold" />
 
     </RelativeLayout>
 
