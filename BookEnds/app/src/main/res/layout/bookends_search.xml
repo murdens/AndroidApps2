@@ -1,71 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/book"
-    >
-
-    <TextView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="24dp"
-        android:text="Book search"
-        android:fontFamily="@font/special_elite"
-        android:textSize="40dp"
-        />
-
-    <EditText
-        android:id="@+id/bookInput"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:inputType="text"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:hint="@string/hint_text"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:fontFamily="@font/special_elite"
-        android:background="@color/secondaryColor"
-        />
-
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="48dp"
-        android:background="@color/secondaryDarkColor"
-        android:textColor="@color/secondaryTextColor"
-        android:fontFamily="@font/special_elite"
-        android:text="Search"
-        />
-    <!-- android:onClick="searchBooks"-->
+    android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/book" />
 
-    <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        android:layout_gravity="bottom">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_horizontal"
-            android:textSize="10sp"
-            android:text="Android App created by @murdens \n \n Photo created by jcomp - www.freepik.com"
-            />
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/special_elite"
+            android:gravity="center"
+            android:text="Book search"
+            android:textSize="40dp" />
+
+        <EditText
+            android:id="@+id/bookInput"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:background="@color/secondaryColor"
+            android:fontFamily="@font/special_elite"
+            android:gravity="center"
+            android:hint="@string/hint_text"
+            android:inputType="text"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
+            android:background="@color/secondaryDarkColor"
+            android:fontFamily="@font/special_elite"
+            android:text="Search"
+            android:textColor="@color/secondaryTextColor" />
+        <!-- android:onClick="searchBooks"-->
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:text="Android App created by @murdens \n \n Photo created by jcomp - www.freepik.com"
+        android:textSize="10sp" />
 
 </RelativeLayout>
-</LinearLayout>
 
-<!-- <a href="https://www.freepik.com/free-photos-vectors/background">Background photo created by photoangel - www.freepik.com</a> -->
+    <!-- <a href="https://www.freepik.com/free-photos-vectors/background">Background photo created by photoangel - www.freepik.com</a> -->
