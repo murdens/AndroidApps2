@@ -6,6 +6,8 @@ from the U.S. Geological Survey (USGS) organization.
 
 Used in a Udacity course in the Beginning Android Nanodegree.
 
+Added animated splash screen to improve user experience.
+
 More info on the USGS Earthquake API available at:
 https://earthquake.usgs.gov/fdsnws/event/1/
 
