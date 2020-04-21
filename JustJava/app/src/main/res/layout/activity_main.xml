@@ -124,5 +124,13 @@
 
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_horizontal"
+        android:textSize="10sp"
+        android:text="Created by @murdens \n image from https://www.foodiesfeed.com/ adjusted in GIMP"
+        />
 </RelativeLayout>
