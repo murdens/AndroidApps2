@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal"
-    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingStart="16dp">
+    android:paddingEnd="16dp"
+    android:paddingRight="16dp">
 
     <TextView
         android:id="@+id/magnitude"
@@ -16,49 +16,52 @@
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
         android:background="@drawable/work_in_progress_icon" />
-    <!-- android:background="@drawable/magnitude_circle"-->
 
-        <LinearLayout
-            android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/authors"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:fontFamily="sans-serif-light"
+            tools:text="here is a name" />
 
-            <TextView
-                android:id="@+id/authors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                app:fontFamily="sans-serif-light"
-                android:maxLines="1"
-                android:textAllCaps="true"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                tools:text="30km S of" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                app:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:textSize="18dp"
-                tools:text="Long placeholder location that should wrap to more than 2 lines of text" />
-
-        </LinearLayout>
-
-            <TextView
-                android:id="@+id/rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                app:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            app:fontFamily="sans-serif-medium"
+            tools:text="this is the title of the book"
+            />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/star"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:fontFamily="sans-serif-medium"
+        tools:text="4.0" />
+
+</LinearLayout>

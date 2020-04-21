@@ -24,8 +24,11 @@ import java.util.List;
  */
 public final class QueryUtils {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = BookendsActivity.class.getName();
+
     /**
      * Query the Google Book APIs and return an {@link List< Bookends >} object to represent a single earthquake.
      */
@@ -133,6 +136,9 @@ public final class QueryUtils {
         // Create an empty ArrayList that we can start adding earthquakes to
         List<Bookends> bookendsList = new ArrayList<>();
 
+        List<String> authors = new ArrayList<String>();
+        double rating = 0;
+
         // Try to parse the JSON_RESPONSE. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
@@ -148,12 +154,32 @@ public final class QueryUtils {
                 JSONObject currentObject = jsonArray.getJSONObject(i);
                 JSONObject volumeInfo = currentObject.getJSONObject("volumeInfo");
 
+//          Title of book
+
                 String title = volumeInfo.getString("title");
-                String author = volumeInfo.getString("authors");
-                double rating = volumeInfo.getDouble("averageRating");
+
+//          Authors
+                try {
+                    if (volumeInfo.has("authors"))
+                        authors = jsonArrayToStringArray(volumeInfo.getJSONArray("authors"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//          Average Rating
+                try {
+                    if (volumeInfo.has("averageRating")) {
+                    }
+                    rating = volumeInfo.getDouble("averageRating");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//          Url link to book details
                 String url = volumeInfo.getString("infoLink");
 
-                Bookends bookends = new Bookends(title, author, rating, url);
+
+                Bookends bookends = new Bookends(title, (ArrayList<String>) authors, rating, url);
                 bookendsList.add(bookends);
             }
 
@@ -168,4 +194,17 @@ public final class QueryUtils {
         return bookendsList;
     }
 
+    public static ArrayList<String> jsonArrayToStringArray(JSONArray jsArray) {
+        ArrayList<String> strArray = new ArrayList<String>();
+
+        for (int j = 0; j < jsArray.length(); j++) {
+            try {
+                strArray.add(jsArray.get(j).toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return strArray;
+    }
 }

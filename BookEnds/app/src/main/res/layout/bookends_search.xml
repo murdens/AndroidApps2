@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondaryLightColor"
+    android:layout_margin="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="56dp"
+        android:text="BookEnds \nsearch"
+        android:fontFamily="@font/special_elite"
+        android:textSize="40dp"
+        />
+
+    <EditText
+        android:id="@+id/bookInput"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:inputType="text"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:hint="@string/app_name"
+        android:background="@android:color/white"
+        />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:layout_marginTop="16dp"
+        android:background="@color/primaryLightColor"
+        android:layout_gravity="center_horizontal"
+        />
+    <!-- android:onClick="searchBooks"-->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

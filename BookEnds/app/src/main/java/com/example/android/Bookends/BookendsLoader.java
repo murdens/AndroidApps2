@@ -19,6 +19,7 @@ public class BookendsLoader extends AsyncTaskLoader<List<Bookends>> {
     public BookendsLoader(Context context, String url) {
         super(context);
         mUrl = url;
+        Log.i(LOG_TAG, "BookendsLoader: TEST "+url);
     }
 
     @Override
