@@ -1,4 +1,4 @@
-Quake Report App
+Quaked App
 ===================================
 
 This app displays a list of recent earthquakes in the world
