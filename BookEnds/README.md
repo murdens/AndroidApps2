@@ -1,20 +1,22 @@
-Quake Report App
+BookEnds (Google Book Search) App
 ===================================
 
-This app displays a list of recent bookends in the world
-from the U.S. Geological Survey (USGS) organization.
+This app displays a list of books based on user input.
+from the Google Books API.
 
-Used in a Udacity course in the Beginning Android Nanodegree.
+Core project structure based on Udacity course earthquake part of the Beginning Android Nanodegree.
 
-More info on the USGS Earthquake API available at:
-https://bookends.usgs.gov/fdsnws/event/1/
+More info on the Google Books API can be found here
+https://developers.google.com/books
 
 Pre-requisites
 --------------
 
-- Android SDK v23
-- Android Build Tools v23.0.2
+- Android SDK v28 (minSDK v15)
+- Android Build Tools v23.0.3
 - Android Support Repository v23.3.0
+
+Project uses Glide to display book image bitmaps.
 
 Getting Started
 ---------------
