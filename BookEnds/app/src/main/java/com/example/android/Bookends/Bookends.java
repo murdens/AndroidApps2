@@ -1,10 +1,5 @@
 package com.example.android.Bookends;
 
-//import android.media.Image;
-
-import android.media.Image;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -12,34 +7,32 @@ public class Bookends {
 
     //private Image aImage;
     private String aTitle, aUrl;
-    private ArrayList<String> aAuthors = new ArrayList<String>();
+    private ArrayList<String> aAuthors;
     private double aAverageRating;
-    private Image iconOfBook;
+    private String aSmallThumbnailUrl;
 
-    /* Create earthquake object
+    /* Create books object
      *
      * @param title - book tile
      * @param author - book author(s)
      * @param averageRating - book rating based on reviews
      * @param url - @link to book
+     * @param thumbnail - image icon of books
      */
-    public Bookends(String title, ArrayList<String> authors, double averageRating, String url) {
-        aTitle= title;
+    public Bookends(String title, ArrayList<String> authors, double averageRating, String url, String smallThumbnailUrl) {
+        aTitle = title;
         aAuthors = authors;
         aAverageRating = averageRating;
         aUrl = url;
+        aSmallThumbnailUrl = smallThumbnailUrl;
     }
 
     // get small image
-    public Image getIcon() {
-        return iconOfBook;
+    public String getSmallThumbnail() {
+        return aSmallThumbnailUrl;
 
     }
-    //  setter for image
-    public void setIcon(Image icon) {
 
-        this.iconOfBook = icon;
-    }
     /*
      * Get the rating
      */

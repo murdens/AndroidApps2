@@ -2,11 +2,11 @@ package com.example.android.Bookends;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,6 +17,7 @@ public class BookendsSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bookends_search);
 
+        // intent to move to BookendsActivity on search click event, if connected and search successful.
         final Intent bookendsActivity = new Intent(this, BookendsActivity.class);
         final EditText searchQuery = findViewById(R.id.bookInput);
         Button searchButton = findViewById(R.id.searchButton);
@@ -24,7 +25,7 @@ public class BookendsSearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String searchQueryString = searchQuery.getText().toString();
-                bookendsActivity.putExtra("searchQuery", searchQueryString );
+                bookendsActivity.putExtra("searchQuery", searchQueryString);
 
                 startActivity(bookendsActivity);
 

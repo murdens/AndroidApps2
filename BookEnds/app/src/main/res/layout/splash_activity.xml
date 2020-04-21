@@ -8,8 +8,6 @@
     android:orientation="vertical"
     tools:context=".SplashActivity">
 
-    <!-- <a href="https://www.freepik.com/free-photos-vectors/background">Background photo created by jcomp - www.freepik.com</a>-->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -55,11 +53,16 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="50dp"
-                android:text="Android Development"
-                android:textSize="30dp"
+                android:text="Android Development \n Google Books Search"
+                android:textSize="24sp"
                 android:fontFamily="cursive" />
 
         </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>
+
+    <!-- photo links -->
+    <!-- <a href="https://www.freepik.com/free-photos-vectors/background">Background photo created by photoangel - www.freepik.com</a>-->
+    <!-- <a href="https://www.freepik.com/free-photos-vectors/background">Background photo created by jcomp - www.freepik.com</a>-->
+    <!-- <a href="https://www.freepik.com/free-photos-vectors/book">Book photo created by freepik - www.freepik.com</a> -->

@@ -14,6 +14,7 @@
 -->
 <resources>
     <string name="app_name">BookEnds</string>
+    <string name="hint_text">Enter an author, title or keyword</string>
     <string name="near_the">Near the</string>
     <string name="empty">No results found</string>
     <string name="no_net">No internet connection</string>

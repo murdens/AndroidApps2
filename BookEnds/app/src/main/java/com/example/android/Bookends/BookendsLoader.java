@@ -19,12 +19,10 @@ public class BookendsLoader extends AsyncTaskLoader<List<Bookends>> {
     public BookendsLoader(Context context, String url) {
         super(context);
         mUrl = url;
-        Log.i(LOG_TAG, "BookendsLoader: TEST "+url);
     }
 
     @Override
     protected void onStartLoading() {
-        Log.i(LOG_TAG, "onStartLoader call");
         forceLoad();
     }
 
@@ -33,7 +31,6 @@ public class BookendsLoader extends AsyncTaskLoader<List<Bookends>> {
         if (mUrl == null) {
             return null;
         }
-        Log.i(LOG_TAG, "loadinBackground called");
         // Perform the network request, parse the response, and extract a list of Books.
         List<Bookends> bookends = QueryUtils.fetchBookData(mUrl);
         return bookends;

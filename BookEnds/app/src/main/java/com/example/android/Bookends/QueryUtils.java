@@ -30,7 +30,7 @@ public final class QueryUtils {
     public static final String LOG_TAG = BookendsActivity.class.getName();
 
     /**
-     * Query the Google Book APIs and return an {@link List< Bookends >} object to represent a single earthquake.
+     * Query the Google Book APIs and return an {@link List< Bookends >} object to represent a single book.
      */
     public static List<Bookends> fetchBookData(String requestUrl) {
 
@@ -94,7 +94,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the Google books JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -133,11 +133,12 @@ public final class QueryUtils {
         if (TextUtils.isEmpty(bookJSON)) {
             return null;
         }
-        // Create an empty ArrayList that we can start adding earthquakes to
+        // Create an empty ArrayList that we can start adding book data to it.
         List<Bookends> bookendsList = new ArrayList<>();
 
         List<String> authors = new ArrayList<String>();
         double rating = 0;
+        String imageUrl = " ";
 
         // Try to parse the JSON_RESPONSE. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -169,8 +170,8 @@ public final class QueryUtils {
 //          Average Rating
                 try {
                     if (volumeInfo.has("averageRating")) {
+                        rating = volumeInfo.getDouble("averageRating");
                     }
-                    rating = volumeInfo.getDouble("averageRating");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -178,8 +179,21 @@ public final class QueryUtils {
 //          Url link to book details
                 String url = volumeInfo.getString("infoLink");
 
+//          Bitmap smallThumbnail.
 
-                Bookends bookends = new Bookends(title, (ArrayList<String>) authors, rating, url);
+                try {
+                    if (volumeInfo.has("imageLinks")) {
+                        JSONObject imageObject = volumeInfo.getJSONObject("imageLinks");
+                        if (imageObject.has("smallThumbnail")) {
+                        imageUrl = imageObject.getString("smallThumbnail");
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                Bookends bookends = new Bookends(title, (ArrayList<String>) authors, rating, url, imageUrl);
                 bookendsList.add(bookends);
             }
 
@@ -190,10 +204,11 @@ public final class QueryUtils {
             Log.e("QueryUtils", "Problem parsing the Google Book JSON results", e);
         }
 
-        // Return the list of earthquakes
+        // Return the list of books
         return bookendsList;
     }
 
+    // helper method to convert JSONArray to StringArray to display authors in TextView
     public static ArrayList<String> jsonArrayToStringArray(JSONArray jsArray) {
         ArrayList<String> strArray = new ArrayList<String>();
 

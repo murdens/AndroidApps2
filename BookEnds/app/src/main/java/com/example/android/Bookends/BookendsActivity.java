@@ -20,11 +20,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import android.content.Loader;
 import android.app.LoaderManager;
@@ -38,24 +36,22 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookendsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Bookends>> {
 
     private static final String LOG_TAG = BookendsLoader.class.getName();
-
+    private static final int BOOKSEARCH_LOADER_ID = 1;
+    /**
+     * private static final String BOOKS_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=gaiman";
+     */
+    private static String BASE_BOOKS_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?";
     // set variable for empty state
     private TextView emptyView;
     //set variable for progress bar
     private ProgressBar progressBar;
     private String GOOGLE_BOOKS_REQUEST_URL;
-
-    private static final int BOOKSEARCH_LOADER_ID = 1;
-
-    private static String BASE_BOOKS_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?";
-    //private static final String BOOKS_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=gaiman";
     /**
      * Adapter for the list of books
      */
@@ -65,6 +61,21 @@ public class BookendsActivity extends AppCompatActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bookends_activity);
+
+        //Fetching the bundle from BookendsSearchActivity
+        Bundle searchBundle = getIntent().getExtras();
+        String searchQuery = searchBundle.getString("searchQuery");
+        //Building URL via a URI Builder
+        Uri baseUri = Uri.parse(BASE_BOOKS_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("q", searchQuery);
+        uriBuilder.appendQueryParameter("maxResults", "20");
+
+        GOOGLE_BOOKS_REQUEST_URL = uriBuilder.toString();
+        Log.i(LOG_TAG, "uriBuilder: TEST" + GOOGLE_BOOKS_REQUEST_URL);
+
+        // getLoaderManager().restartLoader(BOOKSEARCH_LOADER_ID,null,BookendsActivity.this);
 
         // check internet connection, if not connected show empty state no internet connection.
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -86,21 +97,6 @@ public class BookendsActivity extends AppCompatActivity implements LoaderManager
             progressBar = (ProgressBar) findViewById(R.id.loading_spinner);
             progressBar.setVisibility(progressBar.GONE);
         }
-
-        //Fetching the bundle from SearchBarActivity
-        Bundle searchBundle = getIntent().getExtras();
-        String searchQuery = searchBundle.getString("searchQuery");
-       //Building URL via a URI Builder
-        Uri baseUri = Uri.parse(BASE_BOOKS_REQUEST_URL);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-
-        uriBuilder.appendQueryParameter("q", searchQuery);
-        uriBuilder.appendQueryParameter("maxResults", "20");
-
-        GOOGLE_BOOKS_REQUEST_URL = uriBuilder.toString();
-        Log.i(LOG_TAG, "uriBuilder: TEST"+GOOGLE_BOOKS_REQUEST_URL);
-
-        getLoaderManager().restartLoader(BOOKSEARCH_LOADER_ID,null,BookendsActivity.this);
 
         // Find a reference to the {@link ListView} in the layout
         ListView BookendsListView = (ListView) findViewById(R.id.list);
@@ -129,13 +125,13 @@ public class BookendsActivity extends AppCompatActivity implements LoaderManager
         });
 
     }
+
     @NonNull
     @Override
-    public Loader<List<Bookends>> onCreateLoader(int i,@NonNull Bundle bundle) {
+    public Loader<List<Bookends>> onCreateLoader(int i, @NonNull Bundle bundle) {
         //when processes is in background, progress bar is demonstrated to user
-        progressBar.setVisibility(progressBar.VISIBLE);
+        //progressBar.setVisibility(progressBar.VISIBLE);
         return new BookendsLoader(this, GOOGLE_BOOKS_REQUEST_URL);
-
     }
 
     @Override
@@ -158,7 +154,6 @@ public class BookendsActivity extends AppCompatActivity implements LoaderManager
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<Bookends>> loader) {
-
         mAdapter.clear();
     }
 

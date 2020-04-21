@@ -33,14 +33,15 @@ public class SplashActivity extends AppCompatActivity {
 
         //Hooks
         book = findViewById(R.id.book);
-        appName = (TextView) findViewById(R.id.appName);
-        tag = (TextView) findViewById(R.id.tag);
+        appName = findViewById(R.id.appName);
+        tag = findViewById(R.id.tag);
 
         //Setting animations
         book.setAnimation(topAnimation);
         appName.setAnimation(middleAnimation);
         tag.setAnimation(bottomAnimation);
 
+        // handler to set intent post time delay to move to BookendsSearchActivity.
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
