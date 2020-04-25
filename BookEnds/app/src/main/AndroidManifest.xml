@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".BookendsActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings_title">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.Bookends.BookendsActivity"/>
+        </activity>
         <activity android:name=".BookendsSearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -17,6 +17,8 @@ package com.example.android.Bookends;
 
 import android.content.Context;
 import android.content.Intent;
+
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -29,6 +31,8 @@ import android.app.LoaderManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -65,12 +69,20 @@ public class BookendsActivity extends AppCompatActivity implements LoaderManager
         //Fetching the bundle from BookendsSearchActivity
         Bundle searchBundle = getIntent().getExtras();
         String searchQuery = searchBundle.getString("searchQuery");
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+
         //Building URL via a URI Builder
         Uri baseUri = Uri.parse(BASE_BOOKS_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("q", searchQuery);
         uriBuilder.appendQueryParameter("maxResults", "20");
+        uriBuilder.appendQueryParameter("orderby", orderBy);
 
         GOOGLE_BOOKS_REQUEST_URL = uriBuilder.toString();
         Log.i(LOG_TAG, "uriBuilder: TEST" + GOOGLE_BOOKS_REQUEST_URL);
@@ -132,6 +144,7 @@ public class BookendsActivity extends AppCompatActivity implements LoaderManager
         //when processes is in background, progress bar is demonstrated to user
         //progressBar.setVisibility(progressBar.VISIBLE);
         return new BookendsLoader(this, GOOGLE_BOOKS_REQUEST_URL);
+
     }
 
     @Override
@@ -158,8 +171,4 @@ public class BookendsActivity extends AppCompatActivity implements LoaderManager
     }
 
 }
-
-
-
-
 
