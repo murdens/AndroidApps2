@@ -3,6 +3,11 @@ JustJava app
 
 App developed as part of the Udacity course in the Beginning Android Nanodegree.
 
+App uses intents to open default email app to send coffee order
+Added free use image (adjusted using GIMP) to the main layout.
+
+<img src="https://github.com/murdens/AndroidApps2/blob/master/JustJava/previews/Screenshot_20200425-234657_Just%20Java.jpg" width="200" height="400" />
+
 Pre-requisites
 --------------
 - compileSdkVersion 29  (minSDK v15)
