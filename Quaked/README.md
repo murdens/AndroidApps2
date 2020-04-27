@@ -8,6 +8,23 @@ Used in a Udacity course in the Beginning Android Nanodegree.
 
 Added animated splash screen to improve user experience.
 
+![](https://github.com/murdens/AndroidApps2/blob/master/Quaked/Quaked%20example.gif)
+
+
+Empty activity to deal with exception scenarios of no internet connection and no data retrieved - as shown in gif below:
+
+
+
+![](https://github.com/murdens/AndroidApps2/blob/master/Quaked/Quaked%20test%20cases.gif)
+
+
+Added landscape layout for orientation changes
+
+
+
+![](https://github.com/murdens/AndroidApps2/blob/master/Quaked/Quaked_orientation.gif)
+
+
 More info on the USGS Earthquake API available at:
 https://earthquake.usgs.gov/fdsnws/event/1/
 
