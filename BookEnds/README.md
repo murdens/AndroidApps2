@@ -9,6 +9,8 @@ Sketched out a wireframe and researched colour themes & free use images for the 
 
 ![](https://github.com/murdens/AndroidApps2/blob/master/BookEnds/previews/20200427_184816.gif)
 
+<img src="https://github.com/murdens/AndroidApps2/blob/master/BookEnds/previews/Screenshot_20200425-234328_BookEnds.jpg" width="200" height="400" /> <img src="https://github.com/murdens/AndroidApps2/blob/master/BookEnds/previews/Screenshot_20200425-234334_BookEnds.jpg" width="200" height="400" />
+
 More info on the Google Books API can be found here
 https://developers.google.com/books
 
