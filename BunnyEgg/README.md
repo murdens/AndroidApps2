@@ -5,6 +5,9 @@ Simple Easter egg hunt app with multiple activtities and intents based on onClic
 
 Made for my daughters, Easter 2020 (Covid19 lockdown).  Includes my handdrawn, painted bunny picture.
 
+<img src="https://github.com/murdens/AndroidApps2/blob/master/BunnyEgg/previews/download%20(1).png" width="200" height="400" />
+<img src="https://github.com/murdens/AndroidApps2/blob/master/BunnyEgg/previews/download.png" width="200" height="400" />
+
 Pre-requisites
 --------------
 - compileSdkVersion 29  (minSDKv15)
