@@ -5,7 +5,7 @@ Mini side project to create a splash screen for Quaked earthquake app, part of t
 
 Enjoyed learning about animations.  Once in app made an additional layout for landscape orientation.
 
-![](https://github.com/murdens/AndroidApps2/blob/master/EarthquakeSplash/splash3.mp4)
+![](https://github.com/murdens/AndroidApps2/blob/master/EarthquakeSplash/20200427_221441.gif)
 
 Pre-requisites
 --------------
