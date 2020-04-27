@@ -1,9 +1,11 @@
 Splash Screen (for Earthquake app - Quaked)
-======Qua=============================
+============================================
 
 Mini side project to create a splash screen for Quaked earthquake app, part of the Udacity course in the Beginning Android Nanodegree.
 
 Enjoyed learning about animations.  Once in app made an additional layout for landscape orientation.
+
+![](https://github.com/murdens/AndroidApps2/blob/master/EarthquakeSplash/splash3.mp4)
 
 Pre-requisites
 --------------
