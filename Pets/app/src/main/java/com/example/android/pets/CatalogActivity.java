@@ -15,6 +15,8 @@
  */
 package com.example.android.pets;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 
@@ -30,24 +32,26 @@ import android.content.Loader;
 import android.content.CursorLoader;
 import android.app.LoaderManager;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import data.PetContract.PetEntry;
-import data.PetDbHelper;
 
 /**
  * Displays list of pets that were entered and stored in the app.
  */
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    /** Identifier for the pet data loader */
+    private static final int PET_LOADER = 0;
 
-    private static final int PET_LOADER_ID = 0;
+    /** Adapter for the ListView */
+    PetCursorAdapter mCursorAdapter;
 
-    PetAdapter mAdapter;
-
-    private PetDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +68,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             }
         });
 
-        mDbHelper = new PetDbHelper(this);
-
-
         // Find the ListView which will be populated with the pet data
         ListView petListView = (ListView) findViewById(R.id.list);
 
@@ -74,19 +75,36 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         View emptyView = findViewById(R.id.empty_view);
         petListView.setEmptyView(emptyView);
 
-        mAdapter = new PetAdapter(this, null);
+        mCursorAdapter = new PetCursorAdapter(this, null);
         // Attach the adapter to the ListView.
-        petListView.setAdapter(mAdapter);
+        petListView.setAdapter(mCursorAdapter);
 
-        // Prepare the loader.  Either re-connect with an existing one,
-        // or start a new one.
-        getLoaderManager().initLoader(PET_LOADER_ID,null, this);
+        // Setup the item click listener
+        petListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Create new intent to go to {@link EditorActivity}
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+
+                // Form the content URI that represents the specific pet that was clicked on,
+                Uri currentPetUri = ContentUris.withAppendedId(PetEntry.CONTENT_URI, id);
+
+                // Set the URI on the data field of the intent
+                intent.setData(currentPetUri);
+
+                // Launch the {@link EditorActivity} to display the data for the current pet.
+                startActivity(intent);
+            }
+        });
+
+        // Start loader
+        getLoaderManager().initLoader(PET_LOADER,null, this);
 
     }
 
- /**   private void insertPet(){
+   private void insertPet(){
 
-// Create a new map of values, where column names are the keys
+    // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(PetEntry.COLUMN_PET_NAME, "Toto");
         values.put(PetEntry.COLUMN_PET_BREED, "Terrier");
@@ -96,11 +114,19 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
 
     }
-*/
-   // private void deleteTable(){
-   //     SQLiteDatabase db = mDbHelper.getWritableDatabase();
-   //     int deletedRows = db.delete(PetEntry.TABLE_NAME,);
-   // }
+
+    /**
+     * Helper method to delete all pets in the database.
+     */
+    private void deleteAllPets() {
+        int rowsDeleted = getContentResolver().delete(PetEntry.CONTENT_URI, null, null);
+        if (rowsDeleted == 0) {
+            Toast.makeText(CatalogActivity.this, R.string.main_delete_fail, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(CatalogActivity.this, R.string.main_delete_all, Toast.LENGTH_SHORT).show();
+        }
+        finish();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,10 +142,11 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
+                insertPet();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                deleteAllPets();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -145,11 +172,11 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-    mAdapter.swapCursor(data) ;
+    mCursorAdapter.swapCursor(data) ;
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-    mAdapter.swapCursor(null);
+    mCursorAdapter.swapCursor(null);
     }
 }

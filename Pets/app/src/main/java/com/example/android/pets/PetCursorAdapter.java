@@ -2,6 +2,7 @@ package com.example.android.pets;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,9 @@ import android.widget.TextView;
 
 import data.PetContract;
 
-public class PetAdapter extends CursorAdapter {
+public class PetCursorAdapter extends CursorAdapter {
 
-    public PetAdapter(Context context, Cursor c) {
+    public PetCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
 
@@ -36,6 +37,9 @@ public class PetAdapter extends CursorAdapter {
         String petName = cursor.getString(nameColumnIndex);
         String petBreed = cursor.getString(breedColumnIndex);
 
+        if (TextUtils.isEmpty(petBreed)){
+            petBreed = context.getString(R.string.unknown_breed);
+        }
         // Update the TextViews with the attributes for the current pet
         textViewName.setText(petName);
         textViewSummary.setText(petBreed);
