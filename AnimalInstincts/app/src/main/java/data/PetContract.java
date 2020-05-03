@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class PetContract {
-    private PetContract() {}
-
     /**
      * The "Content authority" is a name for the entire content provider, similar to the
      * relationship between a domain name and its website.  A convenient string to use for the
@@ -14,13 +12,11 @@ public final class PetContract {
      * device.
      */
     public static final String CONTENT_AUTHORITY = "com.example.android.animalinstincts";
-
     /**
      * Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
      * the content provider.
      */
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
     /**
      * Possible path (appended to base content URI for possible URI's)
      * For instance, content://com.example.android.pets/pets/ is a valid path for
@@ -28,6 +24,9 @@ public final class PetContract {
      * as the ContentProvider hasn't been given any information on what to do with "staff".
      */
     public static final String PATH_ANIMALS = "animals";
+
+    private PetContract() {
+    }
 
     public static class PetEntry implements BaseColumns {
 

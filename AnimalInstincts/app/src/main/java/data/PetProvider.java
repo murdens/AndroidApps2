@@ -18,14 +18,9 @@ public class PetProvider extends ContentProvider {
      * Tag for the log messages
      */
     public static final String LOG_TAG = PetProvider.class.getSimpleName();
-
-    //database helper object.
-    private PetDbHelper mDbHelper;
-
     // constants to help build URI.
     private static final int PETS = 100;
     private static final int PET_ID = 101;
-
     // Creates a UriMatcher object.
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -48,6 +43,9 @@ public class PetProvider extends ContentProvider {
          */
         uriMatcher.addURI(PetContract.CONTENT_AUTHORITY, PetContract.PATH_ANIMALS + "/#", PET_ID);
     }
+
+    //database helper object.
+    private PetDbHelper mDbHelper;
 
     @Override
     public boolean onCreate() {

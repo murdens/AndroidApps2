@@ -15,6 +15,7 @@
  */
 package com.example.android.animalinstincts;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -22,14 +23,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.CursorLoader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NavUtils;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Environment;
 import android.text.TextUtils;
 
 import android.view.Menu;
@@ -45,6 +50,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import java.io.File;
 
 import data.PetContract.PetEntry;
 
@@ -54,6 +60,14 @@ import data.PetContract.PetEntry;
  */
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    /**
+     * Constant for image request
+     */
+    public static final int PICK_PHOTO_REQUEST = 20;
+    /**
+     * Permission Code for External Storage permission
+     */
+    public static final int EXTERNAL_STORAGE_REQUEST_PERMISSION_CODE = 21;
     /**
      * Identifier for the pet data loader
      */
@@ -104,6 +118,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private boolean mPetHasChanged = false;
 
     /**
+     * URI of the stock unit image
+     */
+    private String mCurrentPhotoUri = "no images";
+
+    /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
      * the view, and we change the mPetHasChanged boolean to true.
      */
@@ -126,18 +145,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            mPetHasChanged = true;
-
-            Uri selectedImage = data.getData();
-            mPetImage.setImageURI(selectedImage);
-        }
-    }
-
-    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState.containsKey("OutputUri") && !savedInstanceState.getString("OutputUri").equals("")) {
@@ -145,7 +152,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mPetImage.setImageURI(OutputUri);
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +181,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mBreedEditText = findViewById(R.id.edit_pet_breed);
         mWeightEditText = findViewById(R.id.edit_pet_weight);
         mGenderSpinner = findViewById(R.id.spinner_gender);
-        mPetAddImageBtn = (Button) findViewById(R.id.upload_image);
+        mPetAddImageBtn = findViewById(R.id.upload_image);
         mPetImage = findViewById((R.id.image_bmp));
 
         // Setup OnTouchListeners on input fields.
@@ -300,7 +306,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String breedString = mBreedEditText.getText().toString().trim();
         String weightString = mWeightEditText.getText().toString().trim();
-        String imageUriString = OutputUri.toString();
 
         // Check if this is supposed to be a new pet
         // and check if all the fields in the editor are blank
@@ -318,7 +323,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(PetEntry.COLUMN_PET_NAME, nameString);
         values.put(PetEntry.COLUMN_PET_BREED, breedString);
         values.put(PetEntry.COLUMN_PET_GENDER, mGender);
-        values.put(PetEntry.COLUMN_PET_IMAGE, imageUriString);
+        values.put(PetEntry.COLUMN_PET_IMAGE, mCurrentPhotoUri);
 
         // TODO what else is needed here to add URL to db
 
@@ -339,6 +344,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             } else {
                 // Otherwise, the insertion was successful and we can display a toast with the row ID.
                 Toast.makeText(this, "Pet saved", Toast.LENGTH_SHORT).show();
+                finish();
             }
         } else {
             // Otherwise this is an EXISTING pet, so update the pet with content URI: mCurrentPetUri
@@ -356,6 +362,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 // Otherwise, the update was successful and we can display a toast.
                 Toast.makeText(this, "Update successful",
                         Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
 
@@ -406,14 +413,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int gender = cursor.getInt(genderColumnIndex);
             int weight = cursor.getInt(weightColumnIndex);
             String image = cursor.getString(imageColumnIndex);
-            Uri imageUri = Uri.parse(image);
+            mCurrentPhotoUri = image;
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mBreedEditText.setText(breed);
             mWeightEditText.setText(Integer.toString(weight));
-            mPetImage.setImageURI(imageUri);
-            //TODO add code to display image as bitmap
+            if (TextUtils.equals(image, "No images")) {
+                mPetImage.setImageURI(Uri.parse(getString(R.string.no_image_url)));
+            } else {
+                mPetImage.setImageURI(Uri.parse(image));
+            }
 
             // Gender is a dropdown spinner, so map the constant value from the database
             // into one of the dropdown options (0 is Unknown, 1 is Male, 2 is Female).
@@ -534,13 +544,69 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
-    //Method for getting image from gallery
-    static final int SELECT_IMAGE = 0;
-
     private void selectImage() {
-        Intent selectImage = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(selectImage, SELECT_IMAGE);
+        //    Intent selectImage = new Intent(Intent.ACTION_PICK,
+        //            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        //    selectImage.setType("image/");
+        //    startActivityForResult(selectImage, SELECT_IMAGE);
+        //}
+
+        //public void onPhotoProductUpdate(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //We are on M or above so we need to ask for runtime permissions
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                invokeGetPhoto();
+            } else {
+                // we are here if we do not all ready have permissions
+                String[] permisionRequest = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                requestPermissions(permisionRequest, EXTERNAL_STORAGE_REQUEST_PERMISSION_CODE);
+            }
+        } else {
+            //We are on an older devices so we dont have to ask for runtime permissions
+            invokeGetPhoto();
+        }
     }
 
+    private void invokeGetPhoto() {
+        // invoke the image gallery using an implict intent.
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+
+        // where do we want to find the data?
+        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String pictureDirectoryPath = pictureDirectory.getPath();
+        // finally, get a URI representation
+        Uri data = Uri.parse(pictureDirectoryPath);
+
+        // set the data and type.  Get all image types.
+        photoPickerIntent.setDataAndType(data, "image/*");
+
+        // we will invoke this activity, and get something back from it.
+        startActivityForResult(photoPickerIntent, PICK_PHOTO_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == EXTERNAL_STORAGE_REQUEST_PERMISSION_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //We got a GO from the user
+            invokeGetPhoto();
+        } else {
+            Toast.makeText(this, "Error storage permissions", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == PICK_PHOTO_REQUEST) {
+            if (data != null) {
+                Uri selectedImage = data.getData();
+                mCurrentPhotoUri = selectedImage.toString();
+
+                mPetImage.setImageURI(Uri.parse(mCurrentPhotoUri));
+            }
+        }
+    }
 }

@@ -43,6 +43,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
+
 import data.PetContract.PetEntry;
 
 /**
@@ -59,6 +61,20 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      */
     PetCursorAdapter mCursorAdapter;
 
+    /**
+     * @param context
+     * @param drawableId
+     * @return
+     */
+    public static final Uri getUriToDrawable(@NonNull Context context,
+                                             @AnyRes int drawableId) {
+
+        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + context.getResources().getResourcePackageName(drawableId)
+                + '/' + context.getResources().getResourceTypeName(drawableId)
+                + '/' + context.getResources().getResourceEntryName(drawableId));
+        return imageUri;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +98,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         View emptyView = findViewById(R.id.empty_view);
         petListView.setEmptyView(emptyView);
 
-        mCursorAdapter = new PetCursorAdapter(this, null);
-        // Attach the adapter to the ListView.
-        petListView.setAdapter(mCursorAdapter);
+        // Start loader
+        getLoaderManager().initLoader(PET_LOADER, null, this);
 
         // Setup the item click listener
         petListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,8 +119,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             }
         });
 
-        // Start loader
-        getLoaderManager().initLoader(PET_LOADER, null, this);
+        mCursorAdapter = new PetCursorAdapter(this, null);
+        // Attach the adapter to the ListView.
+        petListView.setAdapter(mCursorAdapter);
 
     }
 
@@ -132,6 +148,22 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      * Helper method to delete all pets in the database.
      */
     private void deleteAllPets() {
+
+        /**
+         * Before deleting database table values, we need to delete the image files.
+         */
+        String[] projection = new String[]{PetEntry.COLUMN_PET_IMAGE};
+        Cursor cursor = getContentResolver().query(
+                PetEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+        while (cursor.moveToNext()) {
+            String imageFilePath = cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_IMAGE));
+            File imageFile = new File(imageFilePath);
+            imageFile.delete();
+        }
         int rowsDeleted = getContentResolver().delete(PetEntry.CONTENT_URI, null, null);
         if (rowsDeleted == 0) {
             Toast.makeText(CatalogActivity.this, R.string.main_delete_fail, Toast.LENGTH_SHORT).show();
@@ -162,22 +194,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     *
-     * @param context
-     * @param drawableId
-     * @return
-     */
-    public static final Uri getUriToDrawable(@NonNull Context context,
-                                             @AnyRes int drawableId) {
-
-        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
-                "://" + context.getResources().getResourcePackageName(drawableId)
-                + '/' + context.getResources().getResourceTypeName(drawableId)
-                + '/' + context.getResources().getResourceEntryName(drawableId));
-        return imageUri;
     }
 
     @NonNull

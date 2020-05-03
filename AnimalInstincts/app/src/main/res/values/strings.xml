@@ -97,5 +97,6 @@
     <!-- Toast message in editor when all pet data has been deleted [CHAR LIMIT=NONE] -->
     <string name="main_delete_fail">Error deleting pet data</string>
 
+    <string name="no_image_url">android.resource://com.example.android.animalinstincts/drawable-hdpi/product_image</string>
 
 </resources>

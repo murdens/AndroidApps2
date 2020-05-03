@@ -2,6 +2,8 @@ package com.example.android.animalinstincts;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,8 +17,11 @@ import data.PetContract;
 
 public class PetCursorAdapter extends CursorAdapter {
 
-    public PetCursorAdapter(Context context, Cursor c) {
+    private final CatalogActivity catalogActivity;
+
+    public PetCursorAdapter(CatalogActivity context, Cursor c) {
         super(context, c, 0);
+        this.catalogActivity = context;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class PetCursorAdapter extends CursorAdapter {
         String petBreed = cursor.getString(breedColumnIndex);
         String imageString = cursor.getString(imageColumnIndex);
 
-        if (TextUtils.isEmpty(petBreed)){
+        if (TextUtils.isEmpty(petBreed)) {
             petBreed = context.getString(R.string.unknown_breed);
         }
 
@@ -52,8 +57,15 @@ public class PetCursorAdapter extends CursorAdapter {
         textViewName.setText(petName);
         textViewSpecies.setText(petSpecies);
         textViewSummary.setText(petBreed);
-        Uri itemimage = Uri.parse(imageString);
-        petImage.setImageURI(itemimage);
+
+        if (!TextUtils.equals(imageString, "No images")) {
+            petImage.setImageURI(Uri.parse(imageString));
+        } else {
+            petImage.setImageURI(Uri.parse(catalogActivity.getString(R.string.no_image_url)));
+        }
+
+        //Uri itemimage = Uri.parse(imageString);
+        //petImage.setImageURI(itemimage);
     }
 
 }
