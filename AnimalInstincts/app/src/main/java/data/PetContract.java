@@ -13,7 +13,7 @@ public final class PetContract {
      * content authority is the package name for the app, which is guaranteed to be unique on the
      * device.
      */
-    public static final String CONTENT_AUTHORITY = "com.example.android.pets";
+    public static final String CONTENT_AUTHORITY = "com.example.android.animalinstincts";
 
     /**
      * Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
@@ -27,7 +27,7 @@ public final class PetContract {
      * looking at pet data. content://com.example.android.pets/staff/ will fail,
      * as the ContentProvider hasn't been given any information on what to do with "staff".
      */
-    public static final String PATH_PETS = "pets";
+    public static final String PATH_ANIMALS = "animals";
 
     public static class PetEntry implements BaseColumns {
 
@@ -35,22 +35,23 @@ public final class PetContract {
          * The MIME type of the {@link #CONTENT_URI} for a list of pets.
          */
         public static final String CONTENT_LIST_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PETS;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ANIMALS;
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a single pet.
          */
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PETS;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ANIMALS;
 
         /**
          * Creates full URI for the class as a constant called CONTENT_URI
          */
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_ANIMALS);
 
-        public static final String TABLE_NAME = "pets";
+        public static final String TABLE_NAME = "animals";
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_PET_NAME = "name";
+        public static final String COLUMN_PET_SPECIES = "species";
         public static final String COLUMN_PET_BREED = "breed";
         public static final String COLUMN_PET_GENDER = "gender";
         public static final String COLUMN_PET_WEIGHT = "weight";

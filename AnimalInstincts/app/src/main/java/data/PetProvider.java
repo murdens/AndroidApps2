@@ -39,14 +39,14 @@ public class PetProvider extends ContentProvider {
          * Sets the integer value for multiple rows in table 3 to 1. Notice that no wildcard is used
          * in the path
          */
-        uriMatcher.addURI(PetContract.CONTENT_AUTHORITY, PetContract.PATH_PETS, PETS);
+        uriMatcher.addURI(PetContract.CONTENT_AUTHORITY, PetContract.PATH_ANIMALS, PETS);
 
         /*
          * Sets the code for a single row to 2. In this case, the "#" wildcard is
          * used. "content://com.example.app.provider/table3/3" matches, but
          * "content://com.example.app.provider/table3 doesn't.
          */
-        uriMatcher.addURI(PetContract.CONTENT_AUTHORITY, PetContract.PATH_PETS + "/#", PET_ID);
+        uriMatcher.addURI(PetContract.CONTENT_AUTHORITY, PetContract.PATH_ANIMALS + "/#", PET_ID);
     }
 
     @Override
@@ -119,6 +119,11 @@ public class PetProvider extends ContentProvider {
         String name = values.getAsString(PetContract.PetEntry.COLUMN_PET_NAME);
         if (name == null) {
             throw new IllegalArgumentException("Pet requires a name");
+        }
+        // Check that species is not null
+        String species = values.getAsString(PetContract.PetEntry.COLUMN_PET_SPECIES);
+        if (species == null) {
+            throw new IllegalArgumentException("Species required");
         }
         // Check gender is not null
         Integer gender = values.getAsInteger(PetContract.PetEntry.COLUMN_PET_GENDER);

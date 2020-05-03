@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets;
+package com.example.android.animalinstincts;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -118,7 +118,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         ContentValues values = new ContentValues();
         Uri imageUri = getUriToDrawable(this, R.drawable.hamster);
         values.put(PetEntry.COLUMN_PET_NAME, "Harry");
-        values.put(PetEntry.COLUMN_PET_BREED, "Hamster");
+        values.put(PetEntry.COLUMN_PET_SPECIES, "Hamster");
+        values.put(PetEntry.COLUMN_PET_BREED, "Golden");
         values.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
         values.put(PetEntry.COLUMN_PET_WEIGHT, 2);
         values.put(PetEntry.COLUMN_PET_IMAGE, imageUri.toString());
@@ -137,7 +138,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         } else {
             Toast.makeText(CatalogActivity.this, R.string.main_delete_all, Toast.LENGTH_SHORT).show();
         }
-        finish();
     }
 
     @Override
@@ -164,6 +164,12 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     *
+     * @param context
+     * @param drawableId
+     * @return
+     */
     public static final Uri getUriToDrawable(@NonNull Context context,
                                              @AnyRes int drawableId) {
 
@@ -181,6 +187,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         String[] projection = {
                 PetEntry._ID,
                 PetEntry.COLUMN_PET_NAME,
+                PetEntry.COLUMN_PET_SPECIES,
                 PetEntry.COLUMN_PET_BREED,
                 PetEntry.COLUMN_PET_IMAGE
         };

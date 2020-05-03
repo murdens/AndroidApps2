@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets;
+package com.example.android.animalinstincts;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
@@ -23,16 +23,15 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.CursorLoader;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
+
 import android.os.Bundle;
 
 import androidx.core.app.NavUtils;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.TextUtils;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -45,7 +44,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
+
 
 import data.PetContract.PetEntry;
 
@@ -84,9 +83,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      * Button to load images
      */
     private Button mPetAddImageBtn;
-    private ImageView mPetImage;
-    private String imageURI = "";
 
+    /**
+     * Imageview
+     */
+    private ImageView mPetImage;
+    private Uri OutputUri;
     /**
      * EditText field to enter the pet's gender
      */
@@ -112,6 +114,38 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return false;
         }
     };
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save UI state changes to the savedInstanceState.
+        if (OutputUri != null) {
+            String Uri = OutputUri.toString();
+            outState.putString("OutPutUri", Uri);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            mPetHasChanged = true;
+
+            Uri selectedImage = data.getData();
+            mPetImage.setImageURI(selectedImage);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.containsKey("OutputUri") && !savedInstanceState.getString("OutputUri").equals("")) {
+            OutputUri = Uri.parse(savedInstanceState.getString("OutputUri"));
+            mPetImage.setImageURI(OutputUri);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,13 +176,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mWeightEditText = findViewById(R.id.edit_pet_weight);
         mGenderSpinner = findViewById(R.id.spinner_gender);
         mPetAddImageBtn = (Button) findViewById(R.id.upload_image);
+        mPetImage = findViewById((R.id.image_bmp));
 
         // Setup OnTouchListeners on input fields.
         mNameEditText.setOnTouchListener(mTouchListener);
         mBreedEditText.setOnTouchListener(mTouchListener);
         mWeightEditText.setOnTouchListener(mTouchListener);
         mGenderSpinner.setOnTouchListener(mTouchListener);
-        mPetAddImageBtn.setOnTouchListener(mTouchListener);
 
         mPetAddImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,43 +193,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         });
 
         setupSpinner();
-    }
-
-    private void selectImage() {
-        Intent intent;
-        if (Build.VERSION.SDK_INT > 19) {
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-        } else {
-            intent = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        }
-
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-
-            Uri targetURI = data.getData();
-            Bitmap bitmap;
-
-            try {
-                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetURI));
-                mPetImage.setImageBitmap(bitmap);
-                imageURI = targetURI.toString();
-
-            } catch (FileNotFoundException e) {
-
-                e.printStackTrace();
-            }
-
-        }
-
     }
 
     /**
@@ -235,70 +232,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 mGender = PetEntry.GENDER_UNKNOWN;
             }
         });
-    }
-
-    private void savePet() {
-
-        String nameString = mNameEditText.getText().toString().trim();
-        String breedString = mBreedEditText.getText().toString().trim();
-        String weightString = mWeightEditText.getText().toString().trim();
-        String petImageUri = imageURI;
-
-        // Check if this is supposed to be a new pet
-        // and check if all the fields in the editor are blank
-        if (mCurrentPetUri == null &&
-                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(breedString) &&
-                TextUtils.isEmpty(weightString) && mGender == PetEntry.GENDER_UNKNOWN) {
-            // Since no fields were modified, we can return early without creating a new pet.
-            // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
-        }
-
-        // Create a ContentValues object where column names are the keys,
-        // and pet attributes from the editor are the values.
-        ContentValues values = new ContentValues();
-        values.put(PetEntry.COLUMN_PET_NAME, nameString);
-        values.put(PetEntry.COLUMN_PET_BREED, breedString);
-        values.put(PetEntry.COLUMN_PET_GENDER, mGender);
-        values.put(PetEntry.COLUMN_PET_IMAGE, petImageUri);
-
-        int weight = 0;
-        if (!TextUtils.isEmpty(weightString)) {
-            weight = Integer.parseInt(weightString);
-        }
-        values.put(PetEntry.COLUMN_PET_WEIGHT, weight);
-
-        if (mCurrentPetUri == null) {
-            // Insert a new row for pet in the database, returning the ID of that new row.
-            Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
-
-            // Show a toast message depending on whether or not the insertion was successful
-            if (newUri == null) {
-                // If the row ID is -1, then there was an error with insertion.
-                Toast.makeText(this, "Error with saving pet", Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the insertion was successful and we can display a toast with the row ID.
-                Toast.makeText(this, "Pet saved", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            // Otherwise this is an EXISTING pet, so update the pet with content URI: mCurrentPetUri
-            // and pass in the new ContentValues. Pass in null for the selection and selection args
-            // because mCurrentPetUri will already identify the correct row in the database that
-            // we want to modify.
-            int rowsAffected = getContentResolver().update(mCurrentPetUri, values, null, null);
-
-            // Show a toast message depending on whether or not the update was successful.
-            if (rowsAffected == 0) {
-                // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, "Error updating",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, "Update successful",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-
     }
 
     @Override
@@ -362,6 +295,72 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return super.onOptionsItemSelected(item);
     }
 
+    private void savePet() {
+
+        String nameString = mNameEditText.getText().toString().trim();
+        String breedString = mBreedEditText.getText().toString().trim();
+        String weightString = mWeightEditText.getText().toString().trim();
+        String imageUriString = OutputUri.toString();
+
+        // Check if this is supposed to be a new pet
+        // and check if all the fields in the editor are blank
+        if (mCurrentPetUri == null &&
+                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(breedString) &&
+                TextUtils.isEmpty(weightString) && mGender == PetEntry.GENDER_UNKNOWN) {
+            // Since no fields were modified, we can return early without creating a new pet.
+            // No need to create ContentValues and no need to do any ContentProvider operations.
+            return;
+        }
+
+        // Create a ContentValues object where column names are the keys,
+        // and pet attributes from the editor are the values.
+        ContentValues values = new ContentValues();
+        values.put(PetEntry.COLUMN_PET_NAME, nameString);
+        values.put(PetEntry.COLUMN_PET_BREED, breedString);
+        values.put(PetEntry.COLUMN_PET_GENDER, mGender);
+        values.put(PetEntry.COLUMN_PET_IMAGE, imageUriString);
+
+        // TODO what else is needed here to add URL to db
+
+        int weight = 0;
+        if (!TextUtils.isEmpty(weightString)) {
+            weight = Integer.parseInt(weightString);
+        }
+        values.put(PetEntry.COLUMN_PET_WEIGHT, weight);
+
+        if (mCurrentPetUri == null) {
+            // Insert a new row for pet in the database, returning the ID of that new row.
+            Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
+
+            // Show a toast message depending on whether or not the insertion was successful
+            if (newUri == null) {
+                // If the row ID is -1, then there was an error with insertion.
+                Toast.makeText(this, "Error with saving pet", Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the insertion was successful and we can display a toast with the row ID.
+                Toast.makeText(this, "Pet saved", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Otherwise this is an EXISTING pet, so update the pet with content URI: mCurrentPetUri
+            // and pass in the new ContentValues. Pass in null for the selection and selection args
+            // because mCurrentPetUri will already identify the correct row in the database that
+            // we want to modify.
+            int rowsAffected = getContentResolver().update(mCurrentPetUri, values, null, null);
+
+            // Show a toast message depending on whether or not the update was successful.
+            if (rowsAffected == 0) {
+                // If no rows were affected, then there was an error with the update.
+                Toast.makeText(this, "Error updating",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the update was successful and we can display a toast.
+                Toast.makeText(this, "Update successful",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Since the editor shows all pet attributes, define a projection that contains
@@ -406,20 +405,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             String breed = cursor.getString(breedColumnIndex);
             int gender = cursor.getInt(genderColumnIndex);
             int weight = cursor.getInt(weightColumnIndex);
+            String image = cursor.getString(imageColumnIndex);
+            Uri imageUri = Uri.parse(image);
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mBreedEditText.setText(breed);
             mWeightEditText.setText(Integer.toString(weight));
-            try {
-                Uri imageUriPath = Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(PetEntry.COLUMN_PET_IMAGE)));
-                mPetImage.setImageURI(imageUriPath);
-                imageURI = imageUriPath.toString();
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-            }
+            mPetImage.setImageURI(imageUri);
+            //TODO add code to display image as bitmap
 
             // Gender is a dropdown spinner, so map the constant value from the database
             // into one of the dropdown options (0 is Unknown, 1 is Male, 2 is Female).
@@ -536,7 +530,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(EditorActivity.this, R.string.editor_delete_pet_successful,
                         Toast.LENGTH_SHORT).show();
             }
+            finish();
         }
-        finish();
     }
+
+    //Method for getting image from gallery
+    static final int SELECT_IMAGE = 0;
+
+    private void selectImage() {
+        Intent selectImage = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(selectImage, SELECT_IMAGE);
+    }
+
 }

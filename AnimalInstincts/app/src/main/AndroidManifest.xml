@@ -10,12 +10,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<manifest package="com.example.android.pets"
+<manifest package="com.example.android.animalinstincts"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -38,7 +37,7 @@
                 android:value=".CatalogActivity" />
         </activity>
         <provider
-            android:authorities="com.example.android.pets"
+            android:authorities="com.example.android.animalinstincts"
             android:name="data.PetProvider"
             android:exported="false" />
 
