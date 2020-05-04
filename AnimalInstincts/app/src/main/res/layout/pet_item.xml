@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Layout for a single list item in the list of pets -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/activity_margin">
+    android:orientation="vertical"
+        android:padding="@dimen/activity_margin">
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_gravity="center_vertical" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="#2B3D4D"
+        android:layout_gravity="center"
+        tools:text="here is a name"/>
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:layout_marginLeft="16dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#2B3D4D" />
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/species"
@@ -33,7 +36,18 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD" />
+            android:textColor="#AEB6BD"
+            tools:text="species"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="#AEB6BD"
+            android:paddingLeft="16dp"
+            android:text="-"/>
+
 
         <TextView
             android:id="@+id/summary"
@@ -41,6 +55,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD" />
+            android:textColor="#AEB6BD"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            tools:text="breed"/>
     </LinearLayout>
 </LinearLayout>

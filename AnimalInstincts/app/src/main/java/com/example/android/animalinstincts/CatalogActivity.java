@@ -22,6 +22,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 
 import android.net.Uri;
@@ -38,10 +39,12 @@ import android.content.Loader;
 import android.content.CursorLoader;
 import android.app.LoaderManager;
 
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -93,8 +96,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             }
         });
 
+
         // Find the ListView which will be populated with the pet data
-        ListView petListView = findViewById(R.id.list);
+        GridView petListView = findViewById(R.id.list);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
@@ -125,6 +129,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // Attach the adapter to the ListView.
         petListView.setAdapter(mCursorAdapter);
 
+        //enable filtering in Listview
+        petListView.setTextFilterEnabled(true);
     }
 
     /**
@@ -222,6 +228,11 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
                 showDeleteConfirmationDialog();
+                return true;
+            // Respond to a click on action settings
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

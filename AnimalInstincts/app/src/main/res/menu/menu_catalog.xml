@@ -17,6 +17,13 @@
     tools:context=".CatalogActivity">
 
     <item
+            android:id="@+id/action_settings"
+            android:title="@string/settings_menu_item"
+            android:icon="@drawable/ic_filter"
+            android:orderInCategory="1"
+            app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_insert_dummy_data"
         android:title="@string/action_insert_dummy_data"
         app:showAsAction="never" />

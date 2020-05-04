@@ -105,4 +105,35 @@
 
     <string name="no_image_url">android.resource://com.example.android.animalinstincts/drawable-hdpi/default_image</string>
 
+    >!-- For filter and search menu -->
+    <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
+    <string name="settings_menu_item">Settings</string>
+    <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
+    <string name="settings_title">Search Settings</string>
+    <!-- Strings For filter [CHAR LIMIT=30] -->
+    <string name="settings_filter_by_label">Filter By</string>
+    <string name="settings_filter_by_key" translatable="false">filter_by</string>
+    <string name="settings_filter_by_default" translatable="false">@string/settings_filter_species_value</string>
+
+    <string name="settings_filter_species_label">Species</string>
+    <string name="settings_filter_species_value" translatable="false">Species</string>
+
+    <string name="settings_filter_breed_label">Breed</string>
+    <string name="settings_filter_breed_value" translatable="false">Breed</string>
+    <!-- <string name="settings_default" translatable="false">None</string> -->
+
+    <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_name_value</string>
+
+    <string name="settings_order_by_name_label">Name</string>
+    <string name="settings_order_by_name_value" translatable="false">Name</string>
+
+    <!-- Label for order-by species option [CHAR LIMIT=20] -->
+    <string name="settings_order_by_species_label">Species</string>
+    <string name="settings_order_by_species_value" translatable="false">Species</string>
+
+
+
 </resources>

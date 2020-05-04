@@ -2,8 +2,6 @@ package com.example.android.animalinstincts;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -66,4 +64,7 @@ public class PetCursorAdapter extends CursorAdapter {
 
     }
 
+    public void runQuery(CharSequence constraint) {
+        // TODO  add filter criteria.
+    }
 }

@@ -18,10 +18,11 @@
     android:layout_height="match_parent"
     tools:context=".CatalogActivity">
 
-    <ListView
+    <GridView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:numColumns="auto_fit"
         />
     <!-- Empty view for the list -->
     <RelativeLayout
