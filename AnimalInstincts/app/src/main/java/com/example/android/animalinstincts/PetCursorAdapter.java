@@ -64,8 +64,6 @@ public class PetCursorAdapter extends CursorAdapter {
             petImage.setImageURI(Uri.parse(catalogActivity.getString(R.string.no_image_url)));
         }
 
-        //Uri itemimage = Uri.parse(imageString);
-        //petImage.setImageURI(itemimage);
     }
 
 }

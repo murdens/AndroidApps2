@@ -86,6 +86,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * EditText field to enter the pet's breed
      */
+    private EditText mSpeciesEditText;
+
+    /**
+     * EditText field to enter the pet's breed
+     */
     private EditText mBreedEditText;
 
     /**
@@ -94,9 +99,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mWeightEditText;
 
     /**
-     * Button to load images
+     * Buttons to load images and delete
      */
     private Button mPetAddImageBtn;
+    private Button mPetDeleteImageBtn;
 
     /**
      * Imageview
@@ -118,9 +124,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private boolean mPetHasChanged = false;
 
     /**
-     * URI of the stock unit image
+     * URI of the image
      */
-    private String mCurrentPhotoUri = "no images";
+    private String mCurrentPhotoUri = "";
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -172,20 +178,22 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         } else {
             // if intent includes pet data, edit existing
             setTitle("Edit Pet");
-
             getLoaderManager().initLoader(EXISTING_PET_LOADER, null, this);
         }
 
         // Find all relevant views that we will need to read user input from
         mNameEditText = findViewById(R.id.edit_pet_name);
+        mSpeciesEditText = findViewById(R.id.edit_pet_species);
         mBreedEditText = findViewById(R.id.edit_pet_breed);
         mWeightEditText = findViewById(R.id.edit_pet_weight);
         mGenderSpinner = findViewById(R.id.spinner_gender);
         mPetAddImageBtn = findViewById(R.id.upload_image);
+        mPetDeleteImageBtn = findViewById(R.id.delete_image);
         mPetImage = findViewById((R.id.image_bmp));
 
         // Setup OnTouchListeners on input fields.
         mNameEditText.setOnTouchListener(mTouchListener);
+        mSpeciesEditText.setOnTouchListener(mTouchListener);
         mBreedEditText.setOnTouchListener(mTouchListener);
         mWeightEditText.setOnTouchListener(mTouchListener);
         mGenderSpinner.setOnTouchListener(mTouchListener);
@@ -194,6 +202,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onClick(View v) {
                 selectImage();
+
+            }
+        });
+
+        mPetDeleteImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
 
             }
         });
@@ -269,12 +285,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 // Save pet to database
                 savePet();
                 // exit activity
-                finish();
-                return true;
+                break;
+                //finish();
+                //return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
-                return true;
+                break;
+                //return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
                 // Navigate back to parent activity (CatalogActivity)
@@ -304,14 +322,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private void savePet() {
 
         String nameString = mNameEditText.getText().toString().trim();
+        String speciesString = mSpeciesEditText.getText().toString().trim();
         String breedString = mBreedEditText.getText().toString().trim();
         String weightString = mWeightEditText.getText().toString().trim();
 
         // Check if this is supposed to be a new pet
         // and check if all the fields in the editor are blank
         if (mCurrentPetUri == null &&
-                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(breedString) &&
-                TextUtils.isEmpty(weightString) && mGender == PetEntry.GENDER_UNKNOWN) {
+                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(speciesString)
+                && TextUtils.isEmpty(breedString) && TextUtils.isEmpty(weightString)
+                && mGender == PetEntry.GENDER_UNKNOWN) {
             // Since no fields were modified, we can return early without creating a new pet.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
@@ -321,11 +341,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(PetEntry.COLUMN_PET_NAME, nameString);
+        values.put(PetEntry.COLUMN_PET_SPECIES, speciesString);
         values.put(PetEntry.COLUMN_PET_BREED, breedString);
         values.put(PetEntry.COLUMN_PET_GENDER, mGender);
         values.put(PetEntry.COLUMN_PET_IMAGE, mCurrentPhotoUri);
-
-        // TODO what else is needed here to add URL to db
 
         int weight = 0;
         if (!TextUtils.isEmpty(weightString)) {
@@ -375,6 +394,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String[] projection = {
                 PetEntry._ID,
                 PetEntry.COLUMN_PET_NAME,
+                PetEntry.COLUMN_PET_SPECIES,
                 PetEntry.COLUMN_PET_BREED,
                 PetEntry.COLUMN_PET_GENDER,
                 PetEntry.COLUMN_PET_WEIGHT,
@@ -402,6 +422,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (cursor.moveToFirst()) {
             // Find the columns of pet attributes that we're interested in
             int nameColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_NAME);
+            int speciesColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_SPECIES);
             int breedColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_BREED);
             int genderColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_GENDER);
             int weightColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_WEIGHT);
@@ -409,6 +430,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
+            String species = cursor.getString(speciesColumnIndex);
             String breed = cursor.getString(breedColumnIndex);
             int gender = cursor.getInt(genderColumnIndex);
             int weight = cursor.getInt(weightColumnIndex);
@@ -417,6 +439,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
+            mSpeciesEditText.setText(species);
             mBreedEditText.setText(breed);
             mWeightEditText.setText(Integer.toString(weight));
             if (TextUtils.equals(image, "No images")) {
@@ -446,6 +469,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoaderReset(Loader<Cursor> loader) {
         // If the loader is invalidated, clear out all the data from the input fields.
         mNameEditText.setText("");
+        mSpeciesEditText.setText("");
         mBreedEditText.setText("");
         mWeightEditText.setText("");
         mGenderSpinner.setSelection(0); // Select "Unknown" gender
@@ -555,7 +579,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //We are on M or above so we need to ask for runtime permissions
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                invokeGetPhoto();
+                getPhoto();
             } else {
                 // we are here if we do not all ready have permissions
                 String[] permisionRequest = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -563,19 +587,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
         } else {
             //We are on an older devices so we dont have to ask for runtime permissions
-            invokeGetPhoto();
+            getPhoto();
         }
     }
 
-    private void invokeGetPhoto() {
+    private void getPhoto() {
         // invoke the image gallery using an implict intent.
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
 
         // where do we want to find the data?
-        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        String pictureDirectoryPath = pictureDirectory.getPath();
+        File pictureDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String pictureDirPath = pictureDir.getPath();
         // finally, get a URI representation
-        Uri data = Uri.parse(pictureDirectoryPath);
+        Uri data = Uri.parse(pictureDirPath);
 
         // set the data and type.  Get all image types.
         photoPickerIntent.setDataAndType(data, "image/*");
@@ -589,7 +613,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == EXTERNAL_STORAGE_REQUEST_PERMISSION_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             //We got a GO from the user
-            invokeGetPhoto();
+            getPhoto();
         } else {
             Toast.makeText(this, "Error storage permissions", Toast.LENGTH_LONG).show();
         }

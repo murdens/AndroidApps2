@@ -44,6 +44,9 @@
     <!-- Text hint for breed field in the editor [CHAR LIMIT=30] -->
     <string name="hint_pet_breed">Breed</string>
 
+    <!-- Text hint for breed field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_pet_species">Species</string>
+
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
     <string name="hint_pet_weight">Weight</string>
 
@@ -86,6 +89,9 @@
     <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
     <string name="delete_dialog_msg">Delete this pet?</string>
 
+    <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
+    <string name="deleteAll_dialog_msg">Delete all pets?</string>
+
     <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
     <string name="delete">Delete</string>
 
@@ -97,6 +103,6 @@
     <!-- Toast message in editor when all pet data has been deleted [CHAR LIMIT=NONE] -->
     <string name="main_delete_fail">Error deleting pet data</string>
 
-    <string name="no_image_url">android.resource://com.example.android.animalinstincts/drawable-hdpi/product_image</string>
+    <string name="no_image_url">android.resource://com.example.android.animalinstincts/drawable-hdpi/default_image</string>
 
 </resources>
