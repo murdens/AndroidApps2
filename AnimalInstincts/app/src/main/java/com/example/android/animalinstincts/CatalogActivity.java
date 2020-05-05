@@ -15,6 +15,7 @@
  */
 package com.example.android.animalinstincts;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -40,12 +41,13 @@ import android.content.CursorLoader;
 import android.app.LoaderManager;
 
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -55,11 +57,18 @@ import data.PetContract.PetEntry;
 /**
  * Displays list of pets that were entered and stored in the app.
  */
-public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private static final String LOG_TAG = CatalogActivity.class.getName();
     /**
      * Identifier for the pet data loader
      */
     private static final int PET_LOADER = 0;
+
+    String orderBy = "";
+    //    String filterBreed = "";
+    String filterSpecies = "";
 
     /**
      * Adapter for the ListView
@@ -86,6 +95,13 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
+        // Obtain a reference to the SharedPreferences file for this app
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // And register to be notified of preference changes
+        // So we know when the user has adjusted the query settings
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -96,13 +112,19 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             }
         });
 
-
         // Find the ListView which will be populated with the pet data
         GridView petListView = findViewById(R.id.list);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         petListView.setEmptyView(emptyView);
+
+        mCursorAdapter = new PetCursorAdapter(this, null);
+        // Attach the adapter to the ListView.
+        petListView.setAdapter(mCursorAdapter);
+
+        //enable filtering in Listview
+        petListView.setTextFilterEnabled(true);
 
         // Start loader
         getLoaderManager().initLoader(PET_LOADER, null, this);
@@ -125,12 +147,19 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             }
         });
 
-        mCursorAdapter = new PetCursorAdapter(this, null);
-        // Attach the adapter to the ListView.
-        petListView.setAdapter(mCursorAdapter);
+    }
 
-        //enable filtering in Listview
-        petListView.setTextFilterEnabled(true);
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (key.equals(getString(R.string.settings_filter_byspecies_key)) ||
+                key.equals(getString(R.string.settings_order_by_key))) {
+
+            // Clear the ListView as a new query will be kicked off
+            mCursorAdapter.swapCursor(null);
+
+            // Restart the loader to requery the database settings have been updated
+            getLoaderManager().restartLoader(PET_LOADER, null, this);
+        }
     }
 
     /**
@@ -177,6 +206,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         });
 
         // Create and show the AlertDialog
+
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
@@ -185,7 +215,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      * Helper method to delete all pets in the database.
      */
     private void deleteAllPets() {
-
         /**
          * Before deleting database table values, we need to delete the image files.
          */
@@ -241,6 +270,25 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+        //filterBreed = sharedPrefs.getString(
+        //        getString(R.string.settings_filter_bybreed_key),
+        //        getString(R.string.settings_filter_by_default)
+        //);
+        filterSpecies = sharedPrefs.getString(
+                getString(R.string.settings_filter_byspecies_key),
+                ""
+        );
+
+        Log.i(LOG_TAG, "preference: TEST" + orderBy);
+        Log.i(LOG_TAG, "prefspecies: TEST" + filterSpecies);
+
 // define a projection.
         String[] projection = {
                 PetEntry._ID,
@@ -250,23 +298,85 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 PetEntry.COLUMN_PET_IMAGE
         };
 
-        // Loader to execute ContentProviders query method
-        return new CursorLoader(this,
-                PetEntry.CONTENT_URI,
-                projection,
-                null,
-                null,
-                null);
+        /**
+         * This defines a one-element String array to contain the selection argument.
+         */
+        String[] selectionArgs = {""};
+        String selection = null;
+
+        /**
+         *If filter is the empty string, gets everything
+         */
+        if (TextUtils.isEmpty(filterSpecies)) {
+            // Setting the selection clause to null will return all words
+            selectionArgs[0] = "";
+
+        } else {
+            // Constructs a selection clause that matches the word that the user entered.
+            selection = PetEntry.COLUMN_PET_SPECIES + "=?";
+
+            // Moves the user's input string to the selection arguments.
+            selectionArgs[0] = filterSpecies;
+
+            Log.i(LOG_TAG, "TEST:species" + filterSpecies);
+            Log.i(LOG_TAG, "TEST:args" + selectionArgs);
+            Log.i(LOG_TAG, "TEST:selection" + selection);
+        }
+        /**
+         * Define a sort by column
+         */
+        String sortOrder;
+
+        if (orderBy == "Name") {
+            orderBy = PetEntry.COLUMN_PET_NAME;
+        } else if (orderBy == "Species") {
+            orderBy = PetEntry.COLUMN_PET_BREED;
+        }
+
+        // If the order is the empty string, gets everything
+        if (TextUtils.isEmpty(orderBy)) {
+            // Setting the sort order to null will return all db
+            sortOrder = null;
+
+        } else {
+            // Constructs a selection clause that matches the word that the user entered.
+            sortOrder = orderBy + " ASC";
+        }
+
+        if (filterSpecies == "") {
+            String test = "empty";
+            Log.i(LOG_TAG,"TEST loader"+test );
+            // Loader to execute ContentProviders query method
+            return new CursorLoader(this,
+                    PetEntry.CONTENT_URI,
+                    projection,
+                    null,
+                    null,
+                    sortOrder);
+        } else {
+            String test = "false";
+            Log.i(LOG_TAG,"TEST loader"+test );
+            return new CursorLoader(this,
+                    PetEntry.CONTENT_URI,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    sortOrder);
+        }
     }
+
+//TODO need to some how change this I think.
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
+
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mCursorAdapter.swapCursor(null);
+
     }
 
 }

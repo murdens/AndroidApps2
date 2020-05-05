@@ -63,7 +63,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
             android:paddingBottom="24dp"
-            android:text="Android Development \n Created by @murdens"
+            android:text="Android Development\nCreated by @murdens"
             android:textSize="24sp"
             android:fontFamily="cursive" />
 

@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 5000;
+    private static int SPLASH_TIME_OUT = 4000;
 
     /**
     //Hooks

@@ -25,8 +25,11 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
 
-            Preference filterBy = findPreference(getString(R.string.settings_filter_by_key));
-            bindPreferenceSummaryToValue(filterBy);
+            Preference filterSpecies = findPreference(getString(R.string.settings_filter_byspecies_key));
+            bindPreferenceSummaryToValue(filterSpecies);
+
+           // Preference filterBreed = findPreference(getString(R.string.settings_filter_bybreed_key));
+           // bindPreferenceSummaryToValue(filterBreed);
 
             Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
             bindPreferenceSummaryToValue(orderBy);
@@ -56,5 +59,6 @@ public class SettingsActivity extends AppCompatActivity {
             onPreferenceChange(preference, preferenceString);
         }
     }
+
 
 }

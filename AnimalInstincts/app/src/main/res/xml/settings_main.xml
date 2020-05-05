@@ -3,17 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_title">
 
-    <ListPreference
+    <!-- TODO work out filter list
+        <ListPreference
         android:title="@string/settings_filter_by_label"
         android:entries="@array/settings_filter_by_labels"
         android:entryValues="@array/settings_filter_by_values"
         android:key="@string/settings_filter_by_key"
-        />
+        /> -->
 
-    <ListPreference
+        <ListPreference
+        android:defaultValue="@string/settings_order_by_default"
         android:title="@string/settings_order_by_label"
         android:entries="@array/settings_order_by_labels"
         android:entryValues="@array/settings_order_by_values"
         android:key="@string/settings_order_by_key"
         />
+
+    <EditTextPreference
+        android:key="@string/settings_filter_byspecies_key"
+        android:title="Filter by species"
+        android:dialogTitle="Enter species"/>
+<!--
+    <EditTextPreference
+        android:key="@string/settings_filter_bybreed_key"
+        android:title="Filter by breed"
+        android:dialogTitle="Enter breed"/> -->
+
 </PreferenceScreen>
