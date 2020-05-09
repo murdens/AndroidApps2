@@ -18,7 +18,7 @@
         <item>@string/gender_female</item>
     </string-array>
 
-    <string-array name="settings_filter_by_labels">
+    <!-- <string-array name="settings_filter_by_labels">
         <item>@string/settings_filter_species_label</item>
         <item>@string/settings_filter_breed_label</item>
     </string-array>
@@ -26,7 +26,7 @@
     <string-array name="settings_filter_by_values">
         <item>@string/settings_filter_species_value</item>
         <item>@string/settings_filter_breed_value</item>
-    </string-array>
+    </string-array> -->
 
     <string-array name="settings_order_by_labels">
         <item>@string/settings_order_by_species_label</item>

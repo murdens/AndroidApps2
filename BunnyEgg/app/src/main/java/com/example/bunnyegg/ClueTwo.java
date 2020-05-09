@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 public class ClueTwo extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,9 +21,10 @@ public class ClueTwo extends AppCompatActivity {
         String message = getString(R.string.clue_two);
         TextView clueView = (TextView) findViewById(R.id.clue);
         clueView.setText(message);
-    }
 
-    public void next(View v){
+    }
+    public void next(View view){
+
         Intent clueThreeIntent = new Intent(ClueTwo.this, ClueThree.class);
 
         startActivity(clueThreeIntent);

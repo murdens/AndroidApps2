@@ -19,8 +19,10 @@ public class ClueFive extends AppCompatActivity {
         String message = getString(R.string.clue_five);
         TextView clueView = (TextView) findViewById(R.id.clue);
         clueView.setText(message);
+
     }
-    public void next(View v){
+    public void next(View view){
+
         Intent clueEndIntent = new Intent(ClueFive.this, BunnyEnd.class);
 
         startActivity(clueEndIntent);

@@ -52,6 +52,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import data.PetContract;
 import data.PetContract.PetEntry;
 
 /**
@@ -61,15 +62,17 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = CatalogActivity.class.getName();
+
+    private String orderBy;
+    private  String filterSpecies;
+
+    // Shared preferences object
+    private SharedPreferences mPreferences;
+
     /**
      * Identifier for the pet data loader
      */
     private static final int PET_LOADER = 0;
-
-    String orderBy = "";
-    //    String filterBreed = "";
-    String filterSpecies = "";
-
     /**
      * Adapter for the ListView
      */
@@ -96,11 +99,11 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         setContentView(R.layout.activity_catalog);
 
         // Obtain a reference to the SharedPreferences file for this app
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // And register to be notified of preference changes
         // So we know when the user has adjusted the query settings
-        prefs.registerOnSharedPreferenceChangeListener(this);
+        mPreferences.registerOnSharedPreferenceChangeListener(this);
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -271,9 +274,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        orderBy = sharedPrefs.getString(
+        orderBy = mPreferences.getString(
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default)
         );
@@ -281,9 +284,10 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         //        getString(R.string.settings_filter_bybreed_key),
         //        getString(R.string.settings_filter_by_default)
         //);
-        filterSpecies = sharedPrefs.getString(
-                getString(R.string.settings_filter_byspecies_key),
-                ""
+
+        filterSpecies = mPreferences.getString(
+                getString(R.string.settings_filter_byspecies_key).trim(),
+                "".trim()
         );
 
         Log.i(LOG_TAG, "preference: TEST" + orderBy);
@@ -301,8 +305,10 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         /**
          * This defines a one-element String array to contain the selection argument.
          */
+        //TODO need to some how change this I think.
+
         String[] selectionArgs = {""};
-        String selection = null;
+        String selection = "";
 
         /**
          *If filter is the empty string, gets everything
@@ -320,7 +326,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
             Log.i(LOG_TAG, "TEST:species" + filterSpecies);
             Log.i(LOG_TAG, "TEST:args" + selectionArgs);
-            Log.i(LOG_TAG, "TEST:selection" + selection);
         }
         /**
          * Define a sort by column
@@ -345,7 +350,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
         if (filterSpecies == "") {
             String test = "empty";
-            Log.i(LOG_TAG,"TEST loader"+test );
+            Log.i(LOG_TAG, "TEST loader" + test);
             // Loader to execute ContentProviders query method
             return new CursorLoader(this,
                     PetEntry.CONTENT_URI,
@@ -355,7 +360,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                     sortOrder);
         } else {
             String test = "false";
-            Log.i(LOG_TAG,"TEST loader"+test );
+            Log.i(LOG_TAG, "TEST loader" + test);
             return new CursorLoader(this,
                     PetEntry.CONTENT_URI,
                     projection,
@@ -365,7 +370,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         }
     }
 
-//TODO need to some how change this I think.
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {

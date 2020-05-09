@@ -22,7 +22,7 @@ public class ClueOne extends AppCompatActivity {
         clueView.setText(message);
 
     }
-    public void next(View v){
+    public void next(View view){
         Intent clueTwoIntent = new Intent(ClueOne.this, ClueTwo.class);
 
         startActivity(clueTwoIntent);

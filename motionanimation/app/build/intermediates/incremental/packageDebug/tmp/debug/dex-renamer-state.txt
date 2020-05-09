@@ -1,0 +1,4 @@
+#Thu May 07 00:47:44 BST 2020
+base.0=C\:\\Users\\User\\AndroidStudioProjects\\motionanimation\\app\\build\\intermediates\\dex\\debug\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

@@ -115,11 +115,11 @@
     <string name="settings_filter_byspecies_key" translatable="false">filter_by</string>
     <string name="settings_filter_bybreed_key" translatable="false">filter_by</string>
 
-    <string name="settings_filter_species_label">Species</string>
+<!-- <string name="settings_filter_species_label">Species</string>
     <string name="settings_filter_species_value" translatable="false">Species</string>
 
     <string name="settings_filter_breed_label">Breed</string>
-    <string name="settings_filter_breed_value" translatable="false">Breed</string>
+    <string name="settings_filter_breed_value" translatable="false">Breed</string> -->
     <!-- <string name="settings_default" translatable="false">None</string> -->
 
     <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->

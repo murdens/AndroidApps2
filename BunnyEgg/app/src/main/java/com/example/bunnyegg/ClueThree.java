@@ -20,10 +20,10 @@ public class ClueThree extends AppCompatActivity {
         String message = getString(R.string.clue_three);
         TextView clueView = (TextView) findViewById(R.id.clue);
         clueView.setText(message);
+
     }
+    public void next(View view){
 
-
-    public void next(View v){
         Intent clueFourIntent = new Intent(ClueThree.this, ClueFour.class);
 
         startActivity(clueFourIntent);
