@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Placeholders</string>
+    <string name="next"><![CDATA[>>next]]></string>
+    <string name="placeholder1">Use of placeholder - example 1</string>
+    <string name="placeholder2">Use of placeholder - example 2\n using merge template</string>
+    <string name="dummy_text">It\'s been nearly 3 years since I skated a game of roller derby.  Sold my skates a year after I quit.
+    I was terrified every time I got on track but adrenaline always took over.  Miss those days</string>
+</resources>

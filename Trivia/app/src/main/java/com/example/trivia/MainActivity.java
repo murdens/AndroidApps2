@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         //new QuestionBank().getQuestions();
-
-
     }
 
     @Override
@@ -85,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.false_button:
                 checkAnswer(false);
                 updateQuestion();
+                currentQuestionIndex =  (currentQuestionIndex +1) % questionList.size();
                 break;
 
         }
