@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="229dp"
+        android:layout_height="44dp"
+        android:text="@string/reset_questions"
+        app:fontFamily="@font/michroma"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.882" />
+
     <TextView
         android:id="@+id/Trivia"
         android:layout_width="wrap_content"
@@ -18,12 +30,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.195"
         app:textAllCaps="true" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="0dp"
-        android:layout_height="169dp"
+        android:layout_width="400dp"
+        android:layout_height="157dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="10dp"
         app:contentPadding="8dp"
@@ -31,13 +44,14 @@
         app:layout_constraintDimensionRatio="w,16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.289">
 
         <TextView
             android:id="@+id/question_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_width="371dp"
+            android:layout_height="132dp"
+            android:layout_margin="8dp"
             android:textSize="16sp"
             app:fontFamily="@font/michroma"
             tools:text="Hello this a test question
@@ -100,14 +114,15 @@
         android:id="@+id/counter_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="572dp"
-        android:layout_marginLeft="572dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="590dp"
+        android:layout_marginLeft="590dp"
+        android:layout_marginTop="36dp"
         android:textSize="16sp"
         app:fontFamily="@font/michroma"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Trivia"
+        app:layout_constraintTop_toTopOf="@+id/score_counter"
         app:textAllCaps="true"
         tools:text="@string/counter" />
 
@@ -115,10 +130,34 @@
         android:id="@+id/score_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_marginBottom="288dp"
+        android:textSize="14sp"
         app:fontFamily="@font/michroma"
-        tools:layout_editor_absoluteX="645dp"
-        tools:layout_editor_absoluteY="281dp"
-        tools:text="@string/counter" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        tools:text="0" />
+
+    <TextView
+        android:id="@+id/high_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="228dp"
+        android:text="100000"
+        android:textSize="14sp"
+        app:fontFamily="@font/michroma"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/score_counter"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="716dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

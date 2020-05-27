@@ -12,4 +12,5 @@
     <string name="next_button">next button</string>
     <string name="correct_answer">Correct</string>
     <string name="wrong_answer">Wrong</string>
+    <string name="reset_questions">Reset Questions</string>
 </resources>
