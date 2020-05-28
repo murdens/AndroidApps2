@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/cloudslight"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/angel"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="48dp"/>
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/devil"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="48dp"/>
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/arrow"
+        android:layout_centerInParent="true"
+        android:onClick="spinArrow"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/gabriela"
+        android:gravity="center_vertical"
+        android:text="Good"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/gabriela"
+        android:gravity="center_vertical"
+        android:text="Bad"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/image_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:textSize="8sp"
+        android:text="Icons made by http://www.freepik.com/" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gabriela"
+        android:text="App by @murdens"
+        android:layout_margin="16dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        />
+
+
+</RelativeLayout>
