@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Omens</string>
+    <string name="bad">Bad</string>
+    <string name="app_by_murdens">App by @murdens</string>
+    <string name="icon_source">Icons made by http://www.freepik.com/</string>
+    <string name="good">Good</string>
+    <string name="arrow_spin">Arrow_spins_on_touchevent</string>
 </resources>

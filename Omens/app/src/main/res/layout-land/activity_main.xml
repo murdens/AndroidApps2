@@ -11,17 +11,17 @@
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:src="@drawable/angel"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="48dp"/>
+        android:layout_marginStart="48dp"/>
 
     <ImageView
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:src="@drawable/devil"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="48dp"/>
+        android:layout_marginEnd="48dp"/>
 
     <ImageView
         android:id="@+id/arrow"
@@ -39,7 +39,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/gabriela"
         android:gravity="center_vertical"
-        android:text="Good"
+        android:text="@string/good"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="32sp"
         android:textStyle="bold" />
@@ -52,27 +52,29 @@
         android:layout_marginBottom="24dp"
         android:fontFamily="@font/gabriela"
         android:gravity="center_vertical"
-        android:text="Bad"
+        android:text="@string/bad"
         android:textColor="@android:color/holo_red_light"
         android:textSize="32sp"
         android:textStyle="bold" />
+
     <TextView
         android:id="@+id/image_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:textSize="8sp"
-        android:text="Icons made by http://www.freepik.com/" />
+        android:layout_margin="8dp"
+        android:textSize="12sp"
+        android:text="@string/icon_source" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gabriela"
-        android:text="App by @murdens"
-        android:layout_margin="16dp"
-        android:layout_alignParentLeft="true"
+        android:text="@string/app_by_murdens"
+        android:textSize="16sp"
+        android:layout_margin="8dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         />
 
