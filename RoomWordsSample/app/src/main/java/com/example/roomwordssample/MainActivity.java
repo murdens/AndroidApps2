@@ -18,12 +18,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_DATA_UPDATE_WORD = "extra_word_to_be_updated";
     public static final String EXTRA_DATA_ID = "extra_data_id";
+    private static final String TAG = "TAG";
 
     private WordViewModel mWordViewModel;
 
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, NewWordActivity.class);
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+                Log.d(TAG, "New word code " + NEW_WORD_ACTIVITY_REQUEST_CODE );
             }
         });
     }
@@ -130,15 +134,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.d(TAG, "code " + requestCode );
+        Log.d(TAG, "rsultcode " + resultCode );
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
+            // Save the data.
             mWordViewModel.insert(word);
+        } else if (requestCode == UPDATE_WORD_ACTIVITY_REQUEST_CODE
+                && resultCode == RESULT_OK) {
+            String word_data = data.getStringExtra(NewWordActivity.EXTRA_REPLY);
+            int id = data.getIntExtra(NewWordActivity.EXTRA_REPLY_ID, -1);
+            Log.d(TAG, "id " + id );
+
+            if (id != -1) {
+                mWordViewModel.update(new Word(id, word_data));
+            } else {
+                Toast.makeText(this, R.string.unable_to_update,
+                        Toast.LENGTH_LONG).show();
+            }
         } else {
             Toast.makeText(
-                    getApplicationContext(),
-                    R.string.empty_not_saved,
-                    Toast.LENGTH_LONG).show();
+                    this, R.string.empty_not_saved, Toast.LENGTH_LONG).show();
         }
     }
 
