@@ -13,7 +13,7 @@
         android:id="@+id/enter_name_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/enter_name"/>
+        android:text="@string/enter_title"/>
 
     <EditText
         android:id="@+id/enter_thoughts_text"
@@ -26,5 +26,25 @@
         android:text="@string/save_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/show_button"
+        android:text="@string/show_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/show_title"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/show_thought"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>

@@ -3,4 +3,6 @@
     <string name="enter_name">Enter Name</string>
     <string name="enter_thought">Enter thoughts</string>
     <string name="save_btn">Save</string>
+    <string name="show_btn">Show Journal</string>
+    <string name="enter_title">Enter Title</string>
 </resources>
