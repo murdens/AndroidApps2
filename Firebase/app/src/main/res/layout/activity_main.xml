@@ -32,6 +32,24 @@
         android:text="@string/show_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+<!--
+    <Button
+        android:id="@+id/update_button"
+        android:text="@string/update_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+        -->
+<!--
+    <Button
+        android:id="@+id/delete_button"
+        android:text="@string/delete_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+        -->
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/show_title"
@@ -40,11 +58,12 @@
         android:layout_height="wrap_content"
         />
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/show_thought"
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        /> -->
+</androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

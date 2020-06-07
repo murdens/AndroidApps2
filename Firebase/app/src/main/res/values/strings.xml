@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Firebase</string>
-    <string name="enter_name">Enter Name</string>
-    <string name="enter_thought">Enter thoughts</string>
+    <string name="enter_thought">Enter Thoughts</string>
     <string name="save_btn">Save</string>
     <string name="show_btn">Show Journal</string>
     <string name="enter_title">Enter Title</string>
+    <string name="update_all">Update entry</string>
+    <string name="delete_entry">Delete Entry</string>
 </resources>
