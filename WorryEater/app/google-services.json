@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "705072461632",
+    "firebase_url": "https://worryeater-f4108.firebaseio.com",
+    "project_id": "worryeater-f4108",
+    "storage_bucket": "worryeater-f4108.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705072461632:android:cc2c71f6d26d55d1752ca5",
+        "android_client_info": {
+          "package_name": "com.example.worryeater"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705072461632-dab8is0bnr0nfpfs6trsqj0cnogen093.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_Ln2lPSsTAYs5CQ9XevUtd_f_Yg3NfZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705072461632-dab8is0bnr0nfpfs6trsqj0cnogen093.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

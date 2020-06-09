@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">WorryEater</string>
+    <string name="title_name"><![CDATA[Worry eater, wine & repeat]]></string>
+    <string name="eat_worry">Let me eat your worry today</string>
+    <string name="Get_started">Get Started</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login">Sign in</string>
+    <string name="or_text">or</string>
+    <string name="create">Create Account</string>
+    <string name="user_name_hint">Username</string>
+    <string name="thoughts">Your Thoughts</string>
+    <string name="post_title">Title</string>
+    <string name="post_entry">Post entry</string>
+    <string name="menu_title">Add Thoughts</string>
+    <string name="signout">Sign Out</string>
+    <string name="no_thoughts_hint">Wrtite a journal entry by clicking the add icon</string>
+    <string name="date_created">Date created</string>
+</resources>

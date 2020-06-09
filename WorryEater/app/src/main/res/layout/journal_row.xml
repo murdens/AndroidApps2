@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:elevation="10dp"
+        android:background="@color/primaryLightColor"
+        android:alpha="0.7"
+        android:gravity="end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- elevation raises on Z index -->
+        <TextView
+            android:id="@+id/journal_row_username"
+            tools:text="Sonya"
+            android:textColor="@color/primaryTextColor"
+            android:padding="8dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/comfortaa"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/journal_row_share_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_share"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/journal_image_list"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="385dp"
+            android:layout_height="208dp"
+
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/clouds" />
+
+        <TextView
+            android:id="@+id/journal_title_list"
+            android:padding="8dp"
+            tools:text="@string/post_title"
+            android:fontFamily="@font/comfortaa_bold"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/journal_thoughts_list"
+            android:padding="8dp"
+            tools:text="@string/thoughts"
+            android:fontFamily="@font/comfortaa"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <TextView
+            android:id="@+id/journal_timestamp_list"
+            android:padding="8dp"
+            android:textStyle="italic"
+            android:layout_marginBottom="8dp"
+            tools:text="@string/date_created"
+            android:fontFamily="@font/comfortaa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
