@@ -140,17 +140,26 @@ public class PostJournalActivity extends AppCompatActivity implements View.OnCli
                                 public void onSuccess(Uri uri) {
 
                                     String imageUrl =uri.toString();
+                                    Timestamp timeAdded = new Timestamp(new Date());
 
-                                    JournalData journalData = new JournalData();
+//                                    JournalData journalData = new JournalData();
 
-                                    journalData.setTitle(title);
-                                    journalData.setThoughts(thoughts);
-                                    journalData.setImageUrl(imageUrl);
-                                    journalData.setUserId(currentUserId);
-                                    journalData.setUsername(currentUsername);
-                                    journalData.setTimeAdded(new Timestamp(new Date()));
+//                                    journalData.setTitle(title);
+//                                    journalData.setThoughts(thoughts);
+//                                    journalData.setImageUrl(imageUrl);
+//                                    journalData.setUserId(currentUserId);
+//                                    journalData.setUsername(currentUsername);
+//                                    journalData.setTimeAdded(new Timestamp(new Date()));
 
-                                    collectionReference.add(journalData)
+                                    collectionReference.add(new JournalData(
+                                            title,
+                                            thoughts,
+                                            currentUserId,
+                                            currentUsername,
+                                            timeAdded,
+                                            imageUrl))
+
+//                                    ))
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {

@@ -6,6 +6,7 @@ public class JournalApi extends Application {
 
     private String username;
     private String userId;
+
     private static JournalApi instance;
 
     public static JournalApi getInstance() {
@@ -32,5 +33,6 @@ public class JournalApi extends Application {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
 
 }

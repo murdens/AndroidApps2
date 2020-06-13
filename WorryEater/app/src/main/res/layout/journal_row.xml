@@ -28,13 +28,21 @@
             android:gravity="start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
-
+<!--
         <ImageButton
             android:id="@+id/journal_row_share_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_share"
             android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:id="@+id/journal_row_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="@android:color/transparent"/>
+    -->
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +56,7 @@
             android:layout_height="208dp"
 
             android:cropToPadding="true"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:src="@drawable/clouds" />
 
         <TextView
