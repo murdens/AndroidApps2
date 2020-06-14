@@ -43,6 +43,7 @@ public class JournalAdapter extends FirestoreRecyclerAdapter<JournalData, Journa
 
     public void deleteItem(int position){
         getSnapshots().getSnapshot(position).getReference().delete();
+        notifyItemRemoved(position);
     }
 
     @Override

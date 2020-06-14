@@ -2,12 +2,14 @@ package com.example.worryeater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchUIUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,21 +22,26 @@ import com.example.worryeater.data.model.JournalData;
 import com.example.worryeater.ui.JournalAdapter;
 import com.example.worryeater.util.JournalApi;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.SnapshotParser;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class JournalListActivity extends AppCompatActivity implements JournalAdapter.onItemClickListener {
@@ -45,10 +52,9 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
     private FirebaseUser user;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseStorage storageReference;
-    //private List<JournalData> journalDataList;
+    private DatabaseReference database;
     private RecyclerView recyclerView;
     private JournalAdapter journalAdapter;
-
     private CollectionReference collectionReference = db.collection("Journal");
     private TextView noJournalEntry;
     //private ImageButton deleteButton, shareButton;
@@ -65,12 +71,10 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
         user =  mAuth.getCurrentUser();
 
         storageReference = FirebaseStorage.getInstance();
-
-        noJournalEntry = findViewById(R.id.list_no_thoughts);
-        // deleteButton = findViewById(R.id.journal_row_delete_btn);
-        // shareButton = findViewById(R.id.journal_row_share_btn);
+        database = FirebaseDatabase.getInstance().getReference("Journal");
 
         setUpRecyclerView(user);
+
     }
 
     private void setUpRecyclerView(FirebaseUser user) {
@@ -80,9 +84,20 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
         Query query = collectionReference
                 .whereEqualTo("userId", currentUserId)
                 .orderBy("timeAdded", Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<JournalData> options = new FirestoreRecyclerOptions.Builder<JournalData>()
-                .setQuery(query, JournalData.class)
+        final FirestoreRecyclerOptions<JournalData> options = new FirestoreRecyclerOptions.Builder<JournalData>()
+                .setQuery(query, new SnapshotParser<JournalData>() {
+                    @NonNull
+                    @Override
+                    public JournalData parseSnapshot(@NonNull DocumentSnapshot snapshot) {
+                        JournalData journalData = snapshot.toObject(JournalData.class);
+                        journalData.setId(snapshot.getId());
+                        return journalData;
+                    }
+                })
+                .setLifecycleOwner(this)
                 .build();
+//                .setQuery(query, JournalData.class)
+//                .build();
 
         journalAdapter = new JournalAdapter(options);
 
@@ -92,9 +107,12 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(journalAdapter);
 
-        journalAdapter.notifyDataSetChanged();
-
         journalAdapter.setOnItemClickListener(JournalListActivity.this);
+
+        noJournalEntry = findViewById(R.id.list_no_thoughts);
+        // deleteButton = findViewById(R.id.journal_row_delete_btn);
+        // shareButton = findViewById(R.id.journal_row_share_btn);
+
     }
 
     @Override
@@ -147,31 +165,70 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
 
     @Override
     public void onDeleteClick(final int position) {
-        String imageUrl = String.valueOf(journalAdapter.getSnapshots().getSnapshot(position).get("imageUrl"));
-        StorageReference imageRef = storageReference.getReferenceFromUrl(imageUrl);
-        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                journalAdapter.deleteItem(position);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(JournalListActivity.this, "Error deleting",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+        //TODO
+        String journalRef = journalAdapter.getSnapshots().getSnapshot(position).getReference().getId();
+        collectionReference
+                .document(journalRef)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(JournalListActivity.this, "Delete successful",
+                                Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(JournalListActivity.this, "Deletion failed",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+        journalAdapter.notifyDataSetChanged();
     }
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage("Do you want to delete this image?")
+//                .setPositiveButton("Yes", (dialog, which) -> {
+//
+//                }).setNegativeButton("Cancel", (dialog, which) -> {
+//
+//
+//                });
+//        builder.show();
+
+
 
     @Override
     public void onEditClick(int position) {
             //TODO
-        JournalData journal = journalAdapter.getSnapshots().getSnapshot(position).toObject(JournalData.class);
-       String id = journal.getId();
+
     }
 
     @Override
     public void onShareClick(int position) {
             //TODO
+        JournalData journal = journalAdapter.getSnapshots().getSnapshot(position).toObject(JournalData.class);
+        assert journal != null;
+        Uri imageUri = Uri.parse(journal.getImageUrl());
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+//Send to Whattssap
+        //shareIntent.setPackage("com.whatsapp");
+//Even you can add text to the image
+
+        //sendIntent.setType("text/plain");
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, journal.getTitle());
+        sendIntent.putExtra(Intent.EXTRA_TEXT, journal.getThoughts());
+        sendIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        sendIntent.setType("image/*");
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        try {
+            startActivity(shareIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(JournalListActivity.this,"Whatsapp have not been installed.",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }

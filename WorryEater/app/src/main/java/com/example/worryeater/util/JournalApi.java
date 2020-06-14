@@ -34,5 +34,4 @@ public class JournalApi extends Application {
         this.userId = userId;
     }
 
-
 }
