@@ -166,25 +166,28 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
     @Override
     public void onDeleteClick(final int position) {
         //TODO
-        String journalRef = journalAdapter.getSnapshots().getSnapshot(position).getReference().getId();
-        collectionReference
-                .document(journalRef)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(JournalListActivity.this, "Delete successful",
-                                Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(JournalListActivity.this, "Deletion failed",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-        journalAdapter.notifyDataSetChanged();
+        //final String journalRef
+//        final JournalData journalRef = journalAdapter.getSnapshots().getSnapshot(position).toObject(JournalData.class);   //getReference().getId();
+//            collectionReference
+//                .document(journalRef.getId())
+//                .delete()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                       // StorageReference imageRef = storageReference.getReferenceFromUrl(journalRef.getImageUrl());
+//                       // imageRef.delete();
+//                        Toast.makeText(JournalListActivity.this, "Delete successful",
+//                                Toast.LENGTH_LONG).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(JournalListActivity.this, "Deletion failed",
+//                                Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//        journalAdapter.notifyDataSetChanged();
     }
 
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage("Do you want to delete this image?")
