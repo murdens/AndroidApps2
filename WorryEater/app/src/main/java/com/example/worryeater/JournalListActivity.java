@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -78,6 +79,11 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
     }
 
     private void setUpRecyclerView(FirebaseUser user) {
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         String currentUserId = user.getUid();
         // invoke recycler view
        // Query query = db.collection("Journal");
@@ -90,6 +96,7 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
                     @Override
                     public JournalData parseSnapshot(@NonNull DocumentSnapshot snapshot) {
                         JournalData journalData = snapshot.toObject(JournalData.class);
+                        assert journalData != null;
                         journalData.setId(snapshot.getId());
                         return journalData;
                     }
@@ -102,9 +109,6 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
         journalAdapter = new JournalAdapter(options);
 
         // journalDataList = new ArrayList<>();
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(journalAdapter);
 
         journalAdapter.setOnItemClickListener(JournalListActivity.this);
@@ -166,16 +170,21 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
     @Override
     public void onDeleteClick(final int position) {
         //TODO
-        //final String journalRef
-//        final JournalData journalRef = journalAdapter.getSnapshots().getSnapshot(position).toObject(JournalData.class);   //getReference().getId();
+        //final String journalRef;
+//        final JournalData journalRef = journalAdapter.getSnapshots().getSnapshot(position).toObject(JournalData.class);
+//        assert journalRef != null;
+//        String Id = journalRef.getId();//getReference().getId();
+//        Log.d(TAG, "JournalList: "+Id);
 //            collectionReference
-//                .document(journalRef.getId())
+//                .document(Id)
 //                .delete()
 //                .addOnSuccessListener(new OnSuccessListener<Void>() {
 //                    @Override
 //                    public void onSuccess(Void aVoid) {
-//                       // StorageReference imageRef = storageReference.getReferenceFromUrl(journalRef.getImageUrl());
-//                       // imageRef.delete();
+//                        StorageReference imageRef = storageReference.getReferenceFromUrl(journalRef.getImageUrl());
+//                        Log.d(TAG, "journallist: "+ imageRef);
+//                        imageRef.delete();
+//                journalAdapter.notifyDataSetChanged();
 //                        Toast.makeText(JournalListActivity.this, "Delete successful",
 //                                Toast.LENGTH_LONG).show();
 //                    }
@@ -187,7 +196,7 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
 //                                Toast.LENGTH_LONG).show();
 //                    }
 //                });
-//        journalAdapter.notifyDataSetChanged();
+
     }
 
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage("Do you want to delete this image?")
@@ -198,7 +207,6 @@ public class JournalListActivity extends AppCompatActivity implements JournalAda
 //
 //                });
 //        builder.show();
-
 
 
     @Override

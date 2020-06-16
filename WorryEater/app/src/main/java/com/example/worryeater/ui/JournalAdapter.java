@@ -2,6 +2,7 @@ package com.example.worryeater.ui;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.worryeater.LoginActivity;
 import com.example.worryeater.R;
 import com.example.worryeater.data.model.JournalData;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -25,8 +27,9 @@ import com.squareup.picasso.Picasso;
 
 
 public class JournalAdapter extends FirestoreRecyclerAdapter<JournalData, JournalAdapter.ViewHolder> {
-    private onItemClickListener listener ;
+    private onItemClickListener mListener ;
     private Context context;
+    private static final String TAG = "JournalAdapter";
 
     public JournalAdapter(@NonNull FirestoreRecyclerOptions<JournalData> options) {
         super(options);
@@ -99,9 +102,12 @@ public class JournalAdapter extends FirestoreRecyclerAdapter<JournalData, Journa
         }
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION && listener != null){
-                listener.onItemClick(position);
+            if (mListener != null) {
+                int position = getAdapterPosition();
+                Log.d(TAG, "onClick" + position);
+                if (position != RecyclerView.NO_POSITION) {
+                    mListener.onItemClick(position);
+                }
             }
         }
 
@@ -111,27 +117,30 @@ public class JournalAdapter extends FirestoreRecyclerAdapter<JournalData, Journa
             MenuItem share = menu.add(Menu.NONE, 1, 1, "Share post");
             MenuItem edit = menu.add(Menu.NONE, 2, 2, "Edit post");
             MenuItem delete = menu.add(Menu.NONE, 3, 3, "Delete post");
+            Log.d(TAG,"CreateMenu: " + delete.toString());
             share.setOnMenuItemClickListener(this);
             edit.setOnMenuItemClickListener(this);
             delete.setOnMenuItemClickListener(this);
-
         }
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION && listener != null) {
-                switch (item.getItemId()) {
-                    case 1:
-                        listener.onShareClick(position);
-                        return true;
-                    case 2:
-                        listener.onEditClick(position);
-                        return true;
-                    case 3:
-                        listener.onDeleteClick(position);
-                        return true;
+            if (mListener !=null) {
+                int position = getAdapterPosition();
+                Log.d(TAG, "onMenuItem: " + position);
+                if (position != RecyclerView.NO_POSITION) {
+                    switch (item.getItemId()) {
+                        case 1:
+                            mListener.onShareClick(position);
+                            return true;
+                        case 2:
+                            mListener.onEditClick(position);
+                            return true;
+                        case 3:
+                            mListener.onDeleteClick(position);
+                            return true;
 
+                    }
                 }
             }
             return false;
@@ -146,7 +155,7 @@ public class JournalAdapter extends FirestoreRecyclerAdapter<JournalData, Journa
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
-        this.listener = listener;
+        mListener = listener;
     }
 
     @Override

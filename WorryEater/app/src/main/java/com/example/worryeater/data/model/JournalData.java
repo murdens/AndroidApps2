@@ -2,6 +2,8 @@ package com.example.worryeater.data.model;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 
