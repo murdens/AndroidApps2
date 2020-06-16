@@ -5,7 +5,7 @@ Core project structure based on Udacity course earthquake part of the Beginning 
 
 This app displays a list of books based on user input, using the Google Books API.
 
-Sketched out a wireframe and researched colour themes & free use images for the project including app icon, animated splash screen activity, search activity. App displays books in listview, book image bitmap displayed using Glide.
+Sketched out a wireframe and researched colour themes & free use images for the project including app icon, animated splash screen activity, search activity. App displays books in listview, book image bitmap displayed using Glide. App has launcher icon.
 
 ![](https://github.com/murdens/AndroidApps2/blob/master/BookEnds/previews/20200427_184816.gif)
 
