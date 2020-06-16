@@ -1,15 +1,15 @@
 Omens
 ===================================
 
-Based on spin the bottle by @CodeInFlow.  Inspired by Head First Design Patters Angel & Devil and Goods Omens.
-Touch the arrow to spin and decide if your thought/idea is good or bad, heavenly or hellish!
+Based on spin the bottle by @CodeInFlow.  Inspired by Head First Design Patters & Neil Gaimans Goods Omens.
+Indecision? - Touch the arrow to spin and decide if your thought/idea is good or bad, heavenly or hellish!
 
 Simple rotation animation on single activity.
 
 Background: Photo by Billy Huynh on Unsplash
 Icons made by freepik from flaticon.com
 
-![](https://github.com/murdens/AndroidApps2/tree/master/Omens/images/omens3.mp4)
+![](https://github.com/murdens/AndroidApps2/tree/master/Omens/images/omens.gif)
 
 <img src="https://github.com/murdens/AndroidApps2/tree/master/Omens/images/screenshot.png" width="200" height="400" /> 
 
